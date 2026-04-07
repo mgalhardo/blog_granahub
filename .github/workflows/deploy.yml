@@ -26,13 +26,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to Hostinger via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          username: ${{ secrets.FTP_USERNAME }}
-          server: ${{ secrets.FTP_SERVER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 65002
-          local_path: ./out/
-          remote_path: public_html/
-          sftp_only: true
-          delete_remote_files: false
+        run: |
+          sudo apt-get install -y sshpass
+          sshpass -p "${{ secrets.FTP_PASSWORD }}" rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -p 65002" ./out/ ${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_SERVER }}:/home/u624347113/domains/blog.granahub.com.br/public_html/
+          echo "✅ Deploy concluído com sucesso!"
