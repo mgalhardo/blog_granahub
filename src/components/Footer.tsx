@@ -1,4 +1,4 @@
-import { Instagram, MessageCircle, Mail, MapPin } from 'lucide-react';
+import { Camera, MessageSquare, Mail, MapPin } from 'lucide-react';
 
 const footerLinks = {
   produto: [
@@ -19,8 +19,8 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Instagram, href: 'https://instagram.com/granahub.brasil', label: 'Instagram' },
-  { icon: MessageCircle, href: 'https://wa.me/5511979095000', label: 'WhatsApp' },
+  { icon: Camera, href: 'https://instagram.com/granahub.brasil', label: 'Instagram' },
+  { icon: MessageSquare, href: 'https://wa.me/5511979095000', label: 'WhatsApp' },
   { icon: Mail, href: 'mailto:suporte@granahub.com.br', label: 'Email' },
 ];
 
