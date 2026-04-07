@@ -31,7 +31,7 @@ export default function Home() {
                 />
               </div>
             ) : (
-              <div className="aspect-video w-full bg-gradient-primary" />
+              <div className="aspect-video w-full gradient-primary" />
             )}
             <div className="p-6">
               <time className="text-sm font-medium text-granahub-primary-light mb-2 block">
