@@ -1,0 +1,36 @@
+name: "Daily AI Post Generator"
+on:
+  schedule:
+    - cron: '0 10 * * *' # Roda todo dia às 10:00 UTC
+  workflow_dispatch: # Permite rodar manualmente no botão do GitHub
+
+jobs:
+  generate-post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run AI Agent
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: node tools/agent.mjs
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "🤖 Novo Post sugerido pelo Robô GranaHub"
+          title: "Novo Post de IA Disponível para Aprovação"
+          body: |
+            O robô gerou um novo post baseado em tendências financeiras ou nas sugestões!
+            Por favor, revise o markdown gerado e se gostar, clique em "Merge" para publicar no ar.
+          branch: "ai-new-post-${{ github.run_id }}"
