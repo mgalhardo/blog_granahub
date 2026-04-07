@@ -21,7 +21,8 @@ async function runAgent() {
   }
 
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  // Usando gemini-2.5-flash (Padrão estável de 2026)
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
   const sugestoesPath = path.join(rootDir, 'content', 'sugestoes.md');
   let sugestoesContent = '';
