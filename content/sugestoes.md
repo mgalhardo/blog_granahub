@@ -6,6 +6,7 @@ Quando o robô ler e criar o post, ele moverá o item para a seção "Posts Cria
 ## Na Fila (O Robô lerá o primeiro desta lista)
 
 - Como começar a investir do zero, com apenas 100 reais por mês.
+- Imposto de Renda 2026, quais são os prazos?
 
 ## Posts Criados
 - [2026-04-07] Dicas de como economizar dinheiro no supermercado com a inflação alta.
