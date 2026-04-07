@@ -63,6 +63,8 @@ Regras:
 }
 
 Use um tom encorajador, simples e direto. Vá direto ao ponto.
+No final do post (último parágrafo), sempre inclua a seguinte frase de chamada para ação (CTA) com o link:
+"[Inicie seu teste grátis.](https://app.granahub.com.br/auth?mode=register&planType=month)"
 `;
 
   try {
