@@ -4,8 +4,9 @@ Toda vez que você quiser que o robô escreva sobre um tópico específico, adic
 Quando o robô ler e criar o post, ele moverá o item para a seção "Posts Criados".
 
 ## Na Fila (O Robô lerá o primeiro desta lista)
-- Dicas de como economizar dinheiro no supermercado com a inflação alta.
+
 - Como começar a investir do zero, com apenas 100 reais por mês.
 
 ## Posts Criados
+- [2026-04-07] Dicas de como economizar dinheiro no supermercado com a inflação alta.
 - (Nenhum ainda)
