@@ -2,7 +2,7 @@
 title: "Supermercado Inteligente: Economize Mesmo com a Inflação nas Alturas!"
 date: "2026-04-07"
 description: "Aprenda a driblar a inflação no supermercado com dicas simples e eficazes. Faça suas compras renderem mais sem comprometer seu orçamento."
-coverImage: "https://images.unsplash.com/photo-1579621970588-a3f5ce599fac?q=80&w=2070&auto=format&fit=crop"
+coverImage: "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2074&auto=format&fit=crop"
 ---
 
 A inflação não dá trégua e a cada ida ao supermercado a conta parece mais alta, não é? Mas calma! Não é preciso desistir de comer bem para economizar. Com algumas estratégias simples e inteligentes, você pode driblar o aumento dos preços e fazer seu dinheiro render muito mais. O GranaHub está aqui para te ajudar a manter o controle!

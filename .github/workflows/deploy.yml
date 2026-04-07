@@ -28,5 +28,9 @@ jobs:
       - name: Deploy to Hostinger via SFTP
         run: |
           sudo apt-get install -y sshpass
-          sshpass -p "${{ secrets.FTP_PASSWORD }}" rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -p 65002" ./out/ ${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_SERVER }}:/home/u624347113/domains/blog.granahub.com.br/public_html/
+          sshpass -p "${{ secrets.FTP_PASSWORD }}" rsync -avz --delete \
+            --no-implied-dirs \
+            --include='/.htaccess' \
+            -e "ssh -o StrictHostKeyChecking=no -p 65002" \
+            ./out/ ${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_SERVER }}:/home/u624347113/domains/blog.granahub.com.br/public_html/
           echo "✅ Deploy concluído com sucesso!"
