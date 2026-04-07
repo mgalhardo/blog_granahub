@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import * as dotenv from 'dotenv';
 
 // Configura o caminho relativo para ler diretórios independentemente de onde o script é chamado
@@ -9,13 +9,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.join(__dirname, '..');
 
-// Carrega as chaves do arquivo .env
+// Carrega as chaves do arquivo .env (localmente)
 dotenv.config({ path: path.join(rootDir, '.env') });
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 async function runAgent() {
   console.log('🤖 Iniciando Agente GranaHub...');
+
+  if (!process.env.GEMINI_API_KEY) {
+    console.error('❌ ERRO: GEMINI_API_KEY não foi encontrada nos Segredos (Secrets) ou no arquivo .env');
+    process.exit(1);
+  }
+
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const sugestoesPath = path.join(rootDir, 'content', 'sugestoes.md');
   let sugestoesContent = '';
@@ -45,7 +51,7 @@ Sua missão é escrever um post diário.
 TEMA DO POST: ${temaEscolhido}
 
 Regras:
-1. Retorne APENAS um objeto JSON, sem formatação de bloco de código (\`\`\`json).
+1. Retorne APENAS um objeto JSON válido, sem qualquer formatação de bloco de código (não use \`\`\`json).
 2. O formato do JSON deve ser exatamente este:
 {
   "title": "Um título chamativo e focado em SEO",
@@ -55,13 +61,14 @@ Regras:
   "content": "O post completo em formato Markdown. Inclua subtítulos (## e ###), listas, formatações em negrito e pelo menos uma reflexão de conselho no final."
 }
 
-Use um tom encorajador, simples e direto. Não repita saudações iniciais, vá direto ao ponto ou conte uma pequena história/exemplo.
+Use um tom encorajador, simples e direto. Vá direto ao ponto.
 `;
 
   try {
-    const result = await ai.getGenerativeModel({ model: "gemini-1.5-flash" }).generateContent(prompt);
+    const result = await model.generateContent(prompt);
     const response = await result.response;
     const textRaw = response.text();
+    
     // Tenta limpar o raw text caso o Gemini mande tags markdown
     const jsonString = textRaw.replace(/```json\n/g, '').replace(/```\n?/g, '').trim();
     
@@ -69,24 +76,24 @@ Use um tom encorajador, simples e direto. Não repita saudações iniciais, vá 
 
     console.log(`✅ Conteúdo gerado! Título: ${postData.title}`);
 
-    // Buscar Imagem no Pexels ou usar cover fallback via Unsplash Source genérico temporário caso chave não exista
-    let coverImage = "";
+    // Buscar Imagem (Fallback estático ou API)
+    let coverImage = `https://images.unsplash.com/photo-1579621970588-a3f5ce599fac?q=80&w=2070&auto=format&fit=crop`;
+    
     if (process.env.PEXELS_API_KEY) {
-       console.log('📸 Buscando imagem no Pexels...');
-       const pexelsRes = await fetch(`https://api.pexels.com/v1/search?query=${postData.searchTermForImage}&per_page=1`, {
-         headers: { Authorization: process.env.PEXELS_API_KEY }
-       });
-       const pexelsData = await pexelsRes.json();
-       if (pexelsData.photos && pexelsData.photos.length > 0) {
-         coverImage = pexelsData.photos[0].src.large2x;
+       try {
+         console.log('📸 Buscando imagem no Pexels...');
+         const pexelsRes = await fetch(`https://api.pexels.com/v1/search?query=${postData.searchTermForImage}&per_page=1`, {
+           headers: { Authorization: process.env.PEXELS_API_KEY }
+         });
+         const pexelsData = await pexelsRes.json();
+         if (pexelsData.photos && pexelsData.photos.length > 0) {
+           coverImage = pexelsData.photos[0].src.large2x;
+         }
+       } catch (imgError) {
+         console.warn('⚠️ Erro ao buscar imagem, usando fallback.');
        }
     } 
     
-    if (!coverImage) {
-        // Fallback Unsplash genérico (com termo amigável)
-        coverImage = `https://images.unsplash.com/photo-1579621970588-a3f5ce599fac?q=80&w=2070&auto=format&fit=crop`; // fallback static se n tivermos api real p n dar quebrado
-    }
-
     const dataAtual = new Date().toISOString().split('T')[0];
 
     const finalMarkdown = `---
@@ -104,7 +111,6 @@ ${postData.content}
     
     console.log(`💾 Post salvo em: /content/posts/${postData.slug}.md`);
 
-    // Atualiza o arquivo de sugestões se pegou algo de lá
     if (isSugestaoManual) {
       const parts = sugestoesContent.split('## Posts Criados');
       const upperPart = parts[0].replace(`- ${temaEscolhido}`, '').trim();
@@ -123,9 +129,12 @@ ${lowerPart}`;
     console.log('🎉 Tudo pronto! Pull Request no GitHub será disparado...');
 
   } catch (error) {
-    console.error('❌ Erro no Agente:', error);
+    console.error('❌ Erro durante o processo do Agente:', error);
     process.exit(1);
   }
 }
 
-runAgent();
+runAgent().catch(err => {
+    console.error('❌ Erro Fatal no Agente:', err);
+    process.exit(1);
+});
