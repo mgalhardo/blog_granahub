@@ -9,5 +9,8 @@ Quando o robô ler e criar o post, ele moverá o item para a seção "Posts Cria
 - Imposto de Renda 2026, quais são os prazos?
 
 ## Posts Criados
+- [2026-04-07] Os 7 Maiores Erros Financeiros que os Brasileiros Cometem (e Como Evitá-los)
+- [2026-04-07] Planejamento Financeiro para Freelancers: Como Organizar uma Renda Variável
+- [2026-04-07] 5 Estratégias Simples para Sair do Vermelho em 6 Meses
+- [2026-04-07] Como Criar Seu Primeiro Orçamento Pessoal: Guia Completo para Iniciantes
 - [2026-04-07] Dicas de como economizar dinheiro no supermercado com a inflação alta.
-- (Nenhum ainda)
