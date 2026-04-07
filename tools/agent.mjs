@@ -59,12 +59,9 @@ Use um tom encorajador, simples e direto. Não repita saudações iniciais, vá 
 `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
-    });
-
-    const textRaw = response.text;
+    const result = await ai.getGenerativeModel({ model: "gemini-1.5-flash" }).generateContent(prompt);
+    const response = await result.response;
+    const textRaw = response.text();
     // Tenta limpar o raw text caso o Gemini mande tags markdown
     const jsonString = textRaw.replace(/```json\n/g, '').replace(/```\n?/g, '').trim();
     
