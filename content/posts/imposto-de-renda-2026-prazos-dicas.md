@@ -2,7 +2,7 @@
 title: "Imposto de Renda 2026: Prazos e Dicas Essenciais para Não Errar!"
 date: "2026-04-08"
 description: "Prepare-se para o Imposto de Renda 2026! Descubra os prazos importantes, evite multas e organize suas finanças com o GranaHub."
-coverImage: "https://images.unsplash.com/photo-1579621970588-a3f5ce599fac?q=80&w=2070&auto=format&fit=crop"
+coverImage: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop"
 ---
 
 # Imposto de Renda 2026: Prazos e Dicas Essenciais para Não Errar!
