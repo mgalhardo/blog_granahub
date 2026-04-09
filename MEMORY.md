@@ -22,5 +22,10 @@ Foi adaptado um arquivo `.htaccess` inserido na pasta `public` do projeto Next.j
 - Um *Agent* (agente de IA auxiliar) tem uma pipeline programada isolada que pode gerar novos artigos, fazer commit e atualizar o blog por conta própria.
 - Esteja a postos após um pull do Agente de IA para checar se ele adicionou imagens Unsplash com caminhos válidos (caminhos que retornem 200 OK sem cair e sem erro 404). As imagens não aparecerem e sumirem nos posts é sinal de links corrompidos e gerados acidentalmente pelo Agent (alucinação) e requer substituição pelo método de edição no Front-Matter `coverImage`.
 
-## 5. Como Manter este Documento
+## 5. Robô de IA e Gerenciamento de Imagens (Agente)
+- **Integração Pexels**: O robô (`tools/agent.mjs`) utiliza a `PEXELS_API_KEY` (configurada nos Secrets do GitHub) para buscar imagens de capa dinâmicas e contextuais.
+- **Sistema de Fallback (Reserva)**: Caso a API do Pexels falhe ou a chave não esteja presente, o robô conta com uma lista de URLs validadas do Unsplash. Ele seleciona uma aleatoriamente para garantir que nenhum post fique sem imagem ou com imagem quebrada (Erro 404).
+- **Refinamento de Títulos**: Observou-se que o robô pode gerar títulos excessivamente sensacionalistas (estilo "clickbait"). O fluxo recomendado é revisar o título no Pull Request e ajustar para um tom mais prático e direto, condizente com a voz da marca GranaHub, antes de realizar o Merge.
+
+## 6. Como Manter este Documento
 Ao realizar qualquer mudança arquitetural, adicionar integrações de Banco de Dados, regras de redirecionamento ou novos plug-ins no Front-End, por favor, proceda com o apêndice neste documento em novas sessões para que a base de conhecimento (Brain) ou seu assistente mantenha-se com máxima consciência sobre a máquina do GranaHub!
