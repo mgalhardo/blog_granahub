@@ -79,8 +79,16 @@ No final do post (último parágrafo), sempre inclua a seguinte frase de chamada
 
     console.log(`✅ Conteúdo gerado! Título: ${postData.title}`);
 
-    // Buscar Imagem (Fallback estático ou API)
-    let coverImage = `https://images.unsplash.com/photo-1579621970588-a3f5ce599fac?q=80&w=2070&auto=format&fit=crop`;
+    const fallbacks = [
+      "https://images.unsplash.com/photo-1574607383476-f517f260d30b?q=80&w=2074&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?q=80&w=2069&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1555421689-d68471e189f2?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2074&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=2074&auto=format&fit=crop"
+    ];
+    let coverImage = fallbacks[Math.floor(Math.random() * fallbacks.length)];
     
     if (process.env.PEXELS_API_KEY) {
        try {

@@ -3,7 +3,7 @@ title: "Invista com R$100 por Mês: Seu Guia Completo para Sair do Zero!"
 date: "2026-04-09"
 description: "Descubra como dar os primeiros passos no mundo dos investimentos com apenas R$100 mensais.
 Chega de desculpas, seu futuro financeiro começa agora com o GranaHub!"
-coverImage: "https://images.unsplash.com/photo-1579621970588-a3f5ce599fac?q=80&w=2070&auto=format&fit=crop"
+coverImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=2074&auto=format&fit=crop"
 ---
 
 # Comece a Investir do Zero com Apenas R$100 por Mês!
