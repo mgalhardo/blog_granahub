@@ -9,7 +9,7 @@ const footerLinks = {
   ],
   empresa: [
     { label: 'Blog', href: '/' },
-    { label: 'Contato', href: 'https://wa.me/5511979095000' },
+    { label: 'Contato', href: 'https://wa.me/551134525000' },
   ],
   legal: [
     { label: 'Termos de Uso', href: 'https://granahub.com.br#termos' },
@@ -20,7 +20,7 @@ const footerLinks = {
 
 const socialLinks = [
   { icon: Camera, href: 'https://instagram.com/granahub.brasil', label: 'Instagram' },
-  { icon: MessageSquare, href: 'https://wa.me/5511979095000', label: 'WhatsApp' },
+  { icon: MessageSquare, href: 'https://wa.me/551134525000', label: 'WhatsApp' },
   { icon: Mail, href: 'mailto:suporte@granahub.com.br', label: 'Email' },
 ];
 
@@ -48,7 +48,7 @@ export function Footer() {
               </p>
               
               <div className="text-white/70 text-sm mb-6 space-y-1">
-                <p>WhatsApp: (11) 97909-5000</p>
+                <p>WhatsApp: (11) 3452-5000</p>
                 <p>E-mail: suporte@granahub.com.br</p>
               </div>
               

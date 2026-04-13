@@ -25,10 +25,12 @@ async function runAgent() {
   const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
   const sugestoesPath = path.join(rootDir, 'content', 'sugestoes.md');
+  const postsDir = path.join(rootDir, 'content', 'posts');
   let sugestoesContent = '';
-  let temaEscolhido = 'Tendências virais sobre finanças pessoais no Brasil (Dicas aplicáveis e rápidas).';
+  let temaEscolhido = '';
   let isSugestaoManual = false;
 
+  // 1. Tentar pegar da fila manual
   if (fs.existsSync(sugestoesPath)) {
     sugestoesContent = fs.readFileSync(sugestoesPath, 'utf8');
     const filasAberto = sugestoesContent.split('## Na Fila')[1]?.split('## Posts Criados')[0];
@@ -38,32 +40,76 @@ async function runAgent() {
       temaEscolhido = match[1].trim();
       isSugestaoManual = true;
       console.log(`📋 Tema encontrado na lista de Sugestões: "${temaEscolhido}"`);
-    } else {
-      console.log(`🔍 Nenhuma sugestão encontrada em sugestoes.md. Buscando tema geral...`);
     }
+  }
+
+  // 2. Se não houver manual, fazer brainstorming dinâmico
+  if (!temaEscolhido) {
+    console.log(`🔍 Nenhuma sugestão encontrada em sugestoes.md. Iniciando Brainstorming...`);
+    
+    // Coletar contexto
+    const postsExistentes = fs.readdirSync(postsDir)
+      .filter(f => f.endsWith('.md'))
+      .map(f => f.replace('.md', '').replaceAll('-', ' '));
+    
+    const noticias = await fetchNewsHeadlines();
+    const categoriaSorteada = pickWeightedCategory();
+    
+    console.log(`🎲 Categoria sorteada: ${categoriaSorteada}`);
+
+    const brainstormPrompt = `Aja como um estrategista de conteúdo para o blog "GranaHub" (WhatsApp Financeiro).
+Sua tarefa é sugerir o MELHOR tema para o post de hoje.
+
+CATEGORIA SORTEADA: ${categoriaSorteada}
+
+CONTEXTO:
+- Já escrevemos sobre: ${postsExistentes.slice(-10).join(', ')}
+- Notícias reais do dia: ${noticias.length > 0 ? noticias.slice(0, 15).join(' | ') : 'Nenhuma notícia recente disponível.'}
+
+REGRAS:
+1. O tema deve ser ÚNICO e não repetir os que já escrevemos.
+2. Evite generalismos como "O que está bombando nas redes". Seja específico.
+3. Se a categoria for Notícias, tente conectar uma das notícias reais ao contexto de finanças pessoais.
+4. Se for Economia Doméstica ou Investimentos, foque em dicas práticas ou educacionais.
+5. Retorne um objeto JSON com: {"tema": "...", "categoria": "..."}.
+   Use categorias amigáveis como: "Economia Doméstica", "Investimentos", "GranaHub", "Planejamento", "Imposto de Renda".
+
+JSON SUGERIDO:`;
+
+    const brainstormResult = await model.generateContent(brainstormPrompt);
+    const brainstormData = JSON.parse(brainstormResult.response.text().replace(/```json\n/g, '').replace(/```\n?/g, '').trim());
+    temaEscolhido = brainstormData.tema;
+    const categoriaEscolhida = brainstormData.categoria;
+    console.log(`💡 Brainstorming concluiu: "${temaEscolhido}" na categoria "${categoriaEscolhida}"`);
+    process.env.POST_CATEGORY = categoriaEscolhida; // Guardar para o próximo passo
   }
 
   console.log('✍️  Gerando conteúdo com Gemini...');
 
   const prompt = `Você é um especialista em finanças pessoais, trabalhando como redator para o blog "GranaHub". 
 O GranaHub é um aplicativo focado em controle financeiro 100% pelo WhatsApp, focado no público brasileiro.
-Sua missão é escrever um post diário.
+Sua missão é escrever um post diário de alta qualidade.
 
 TEMA DO POST: ${temaEscolhido}
 
-Regras:
-1. Retorne APENAS um objeto JSON válido, sem qualquer formatação de bloco de código (não use \`\`\`json).
-2. O formato do JSON deve ser exatamente este:
+Regras Cruciais:
+1. Retorne APENAS um objeto JSON válido.
+2. Fuja do óbvio. Não fale apenas de "economizar cafézinho". Traga insights reais, dados ou conexões com a economia atual.
+3. Se for um post de notícias, explique como aquilo afeta o bolso do brasileiro comum.
+4. O tom deve ser encorajador, simples, mas muito profissional e direto.
+5. O formato do JSON deve ser exatamente este:
 {
-  "title": "Um título chamativo e focado em SEO",
+  "title": "Um título chamativo e focado em SEO (evite títulos genéricos)",
   "description": "Uma breve descrição de 2 linhas para os metadados (SEO)",
-  "slug": "url-amigavel-do-post-sem-acentos-ou-espacos",
-  "searchTermForImage": "uma palavra chave em INGLÊS que represente a imagem de capa ideal (ex: money, invoice, shopping, wallet)",
-  "content": "O post completo em formato Markdown. Inclua subtítulos (## e ###), listas, formatações em negrito e pelo menos uma reflexão de conselho no final."
+  "slug": "url-amigavel-do-post",
+  "category": "A categoria definida no passo anterior",
+  "searchTermForImage": "uma palavra chave em INGLÊS para imagem de capa",
+  "content": "O post completo em Markdown. Use ## e ###. Inclua listas impactantes e um parágrafo final de reflexão/conselho."
 }
 
-Use um tom encorajador, simples e direto. Vá direto ao ponto.
-No final do post (último parágrafo), sempre inclua a seguinte frase de chamada para ação (CTA) com o link:
+CATEGORIA DEFINIDA: ${process.env.POST_CATEGORY || 'Finanças'}
+
+No final do post (último parágrafo), inclua o CTA:
 "[Inicie seu teste grátis.](https://app.granahub.com.br/auth?mode=register&planType=month)"
 `;
 
@@ -112,6 +158,7 @@ title: "${postData.title}"
 date: "${dataAtual}"
 description: "${postData.description}"
 coverImage: "${coverImage}"
+category: "${postData.category || process.env.POST_CATEGORY || 'Finanças'}"
 ---
 
 ${postData.content}
@@ -149,3 +196,37 @@ runAgent().catch(err => {
     console.error('❌ Erro Fatal no Agente:', err);
     process.exit(1);
 });
+
+// --- Funções Auxiliares ---
+
+async function fetchNewsHeadlines() {
+  const sources = [
+    'https://g1.globo.com/rss/g1/economia/',
+    'https://www.infomoney.com.br/feed/'
+  ];
+  let allTitles = [];
+  for (const url of sources) {
+    try {
+      const res = await fetch(url);
+      const text = await res.text();
+      const items = text.split('<item>');
+      items.shift();
+      const titles = items.map(item => {
+        const match = item.match(/<title>(<!\[CDATA\[)?(.+?)(\]\]>)?<\/title>/);
+        return match ? match[2] : null;
+      }).filter(Boolean);
+      allTitles = allTitles.concat(titles.slice(0, 10));
+    } catch (e) {
+      console.warn(`⚠️ Aviso: Falha ao buscar notícias de ${url}`);
+    }
+  }
+  return allTitles;
+}
+
+function pickWeightedCategory() {
+  const rand = Math.random() * 100;
+  // 40% Economia Doméstica, 30% Investimentos, 30% Notícias
+  if (rand < 40) return 'Economia Doméstica (Orçamento, poupança, dicas de consumo real)';
+  if (rand < 70) return 'Investimentos (Renda Fixa, Bolsa de Valores, Planejamento de longo prazo)';
+  return 'Notícias e Atualidades Financeiras Reais';
+}

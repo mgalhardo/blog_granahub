@@ -8,6 +8,7 @@ export interface PostMeta {
   title: string;
   date: string;
   description: string;
+  category: string;
   slug: string;
   coverImage?: string;
 }
@@ -43,4 +44,10 @@ export function getAllPosts(): Post[] {
     .map((slug) => getPostBySlug(slug))
     .sort((post1, post2) => (post1.meta.date > post2.meta.date ? -1 : 1));
   return posts;
+}
+
+export function getAllCategories(): string[] {
+  const posts = getAllPosts();
+  const categories = posts.map(post => post.meta.category).filter(Boolean);
+  return Array.from(new Set(categories));
 }
