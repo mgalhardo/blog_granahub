@@ -20,7 +20,7 @@ export interface Post {
 
 export function getPostSlugs() {
   if (!fs.existsSync(postsDirectory)) return [];
-  return fs.readdirSync(postsDirectory);
+  return fs.readdirSync(postsDirectory).filter((file) => file.endsWith('.md'));
 }
 
 export function getPostBySlug(slug: string): Post {
