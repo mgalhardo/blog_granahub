@@ -12,7 +12,7 @@ import {
   ArrowDownRight,
   ShieldCheck
 } from 'lucide-react';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Interno | GranaHub Analytics',
@@ -56,21 +56,24 @@ export default function StatsDashboard() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-          {stats.map((stat) => (
-            <div key={stat.name} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
-              <div className="flex justify-between items-start mb-4">
-                <div className="p-3 rounded-xl bg-gray-50 group-hover:bg-granahub-primary/5 transition-colors">
-                  <stat.icon className="w-6 h-6 text-granahub-primary" />
+          {stats.map((stat) => {
+            const Icon = stat.icon;
+            return (
+              <div key={stat.name} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+                <div className="flex justify-between items-start mb-4">
+                  <div className="p-3 rounded-xl bg-gray-50 group-hover:bg-granahub-primary/5 transition-colors">
+                    <Icon className="w-6 h-6 text-granahub-primary" />
+                  </div>
+                  <div className={`flex items-center text-xs font-bold ${stat.type === 'positive' ? 'text-green-600' : 'text-red-600'}`}>
+                    {stat.type === 'positive' ? <ArrowUpRight className="w-3 h-3 mr-1" /> : <ArrowDownRight className="w-3 h-3 mr-1" />}
+                    {stat.change}
+                  </div>
                 </div>
-                <div className={`flex items-center text-xs font-bold ${stat.type === 'positive' ? 'text-green-600' : 'text-red-600'}`}>
-                  {stat.type === 'positive' ? <ArrowUpRight className="w-3 h-3 mr-1" /> : <ArrowDownRight className="w-3 h-3 mr-1" />}
-                  {stat.change}
-                </div>
+                <h3 className="text-sm font-medium text-granahub-text-secondary mb-1">{stat.name}</h3>
+                <p className="text-2xl font-black text-granahub-text">{stat.value}</p>
               </div>
-              <h3 className="text-sm font-medium text-granahub-text-secondary mb-1">{stat.name}</h3>
-              <p className="text-2xl font-black text-granahub-text">{stat.value}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
