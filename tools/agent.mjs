@@ -21,8 +21,7 @@ async function runAgent() {
   }
 
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  // Usando gemini-2.5-flash (Padrão estável de 2026)
-  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+  const PRIMARY_MODEL = "gemini-2.5-flash";
 
   const sugestoesPath = path.join(rootDir, 'content', 'sugestoes.md');
   const postsDir = path.join(rootDir, 'content', 'posts');
@@ -65,7 +64,6 @@ CATEGORIA SORTEADA: ${categoriaSorteada}
 CONTEXTO:
 - Já escrevemos sobre: ${postsExistentes.slice(-10).join(', ')}
 - Notícias reais do dia: ${noticias.length > 0 ? noticias.slice(0, 15).join(' | ') : 'Nenhuma notícia recente disponível.'}
-- Notícias reais do dia: ${notícias.length > 0 ? noticias.slice(0, 15).join(' | ') : 'Nenhuma notícia recente disponível.'}
 
 REGRAS:
 1. O tema deve ser ÚNICO e não repetir os que já escrevemos.
@@ -78,7 +76,7 @@ REGRAS:
 FORMATO: {"tema": "...", "categoria": "..."}
 `;
 
-    const brainstormResult = await model.generateContent(brainstormPrompt);
+    const brainstormResult = await callWithRetry(genAI, PRIMARY_MODEL, brainstormPrompt);
     const brainstormRaw = brainstormResult.response.text();
     const brainstormJson = extractJSON(brainstormRaw);
     
@@ -123,7 +121,7 @@ No final do post (último parágrafo), inclua o CTA:
 `;
 
   try {
-    const result = await model.generateContent(prompt);
+    const result = await callWithRetry(genAI, PRIMARY_MODEL, prompt);
     const response = await result.response;
     const textRaw = response.text();
     const jsonString = extractJSON(textRaw);
@@ -250,4 +248,35 @@ function extractJSON(text) {
   const end = text.lastIndexOf('}');
   if (start === -1 || end === -1) return null;
   return text.substring(start, end + 1);
+}
+
+/**
+ * Executa uma chamada à API com retentativas e fallback de modelo.
+ */
+async function callWithRetry(genAI, modelName, prompt, retries = 3, initialDelay = 2000) {
+  let lastError;
+  const models = [modelName, "gemini-1.5-flash"];
+  let currentDelay = initialDelay;
+
+  for (const currentModel of models) {
+    for (let i = 0; i < retries; i++) {
+      try {
+        const model = genAI.getGenerativeModel({ model: currentModel });
+        return await model.generateContent(prompt);
+      } catch (error) {
+        lastError = error;
+        const isTransient = error.status === 503 || error.status === 429 || error.message?.includes('high demand');
+        
+        if (isTransient && i < retries - 1) {
+          console.warn(`⚠️ Erro na tentativa ${i + 1} com ${currentModel}: ${error.status || 'Desconhecido'}. Tentando novamente em ${currentDelay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, currentDelay));
+          currentDelay *= 2;
+          continue;
+        }
+        break;
+      }
+    }
+    console.warn(`🔄 Falha em todas as tentativas com ${currentModel}.`);
+  }
+  throw lastError;
 }
