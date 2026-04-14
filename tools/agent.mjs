@@ -253,18 +253,26 @@ function extractJSON(text) {
 /**
  * Executa uma chamada à API com retentativas e fallback de modelo.
  */
-async function callWithRetry(genAI, modelName, prompt, retries = 3, initialDelay = 2000) {
+async function callWithRetry(genAI, modelName, prompt, retries = 5, initialDelay = 2000) {
   let lastError;
-  const models = [modelName, "gemini-1.5-flash"];
+  const models = [modelName, "gemini-2.0-flash", "gemini-1.5-flash-latest"];
   let currentDelay = initialDelay;
 
   for (const currentModel of models) {
     for (let i = 0; i < retries; i++) {
       try {
+        console.log(`📡 Tentando chamada com o modelo: ${currentModel} (Tentativa ${i + 1}/${retries})...`);
         const model = genAI.getGenerativeModel({ model: currentModel });
         return await model.generateContent(prompt);
       } catch (error) {
         lastError = error;
+        
+        // Se o modelo não existe (404), pula para o próximo modelo imediatamente
+        if (error.status === 404) {
+          console.warn(`⚠️ Modelo ${currentModel} não encontrado (404). Pulando para o próximo fallback...`);
+          break;
+        }
+
         const isTransient = error.status === 503 || error.status === 429 || error.message?.includes('high demand');
         
         if (isTransient && i < retries - 1) {
