@@ -65,19 +65,28 @@ CATEGORIA SORTEADA: ${categoriaSorteada}
 CONTEXTO:
 - Já escrevemos sobre: ${postsExistentes.slice(-10).join(', ')}
 - Notícias reais do dia: ${noticias.length > 0 ? noticias.slice(0, 15).join(' | ') : 'Nenhuma notícia recente disponível.'}
+- Notícias reais do dia: ${notícias.length > 0 ? noticias.slice(0, 15).join(' | ') : 'Nenhuma notícia recente disponível.'}
 
 REGRAS:
 1. O tema deve ser ÚNICO e não repetir os que já escrevemos.
 2. Evite generalismos como "O que está bombando nas redes". Seja específico.
 3. Se a categoria for Notícias, tente conectar uma das notícias reais ao contexto de finanças pessoais.
 4. Se for Economia Doméstica ou Investimentos, foque em dicas práticas ou educacionais.
-5. Retorne um objeto JSON com: {"tema": "...", "categoria": "..."}.
+5. Retorne APENAS o objeto JSON, sem texto introdutório ou explicações.
    Use categorias amigáveis como: "Economia Doméstica", "Investimentos", "GranaHub", "Planejamento", "Imposto de Renda".
 
-JSON SUGERIDO:`;
+FORMATO: {"tema": "...", "categoria": "..."}
+`;
 
     const brainstormResult = await model.generateContent(brainstormPrompt);
-    const brainstormData = JSON.parse(brainstormResult.response.text().replace(/```json\n/g, '').replace(/```\n?/g, '').trim());
+    const brainstormRaw = brainstormResult.response.text();
+    const brainstormJson = extractJSON(brainstormRaw);
+    
+    if (!brainstormJson) {
+      throw new Error(`Não foi possível encontrar JSON no brainstorming: ${brainstormRaw}`);
+    }
+
+    const brainstormData = JSON.parse(brainstormJson);
     temaEscolhido = brainstormData.tema;
     const categoriaEscolhida = brainstormData.categoria;
     console.log(`💡 Brainstorming concluiu: "${temaEscolhido}" na categoria "${categoriaEscolhida}"`);
@@ -93,11 +102,11 @@ Sua missão é escrever um post diário de alta qualidade.
 TEMA DO POST: ${temaEscolhido}
 
 Regras Cruciais:
-1. Retorne APENAS um objeto JSON válido.
+1. Retorne APENAS um objeto JSON válido. NÃO inclua texto introdutório, cumprimentos ou explicações fora do JSON.
 2. Fuja do óbvio. Não fale apenas de "economizar cafézinho". Traga insights reais, dados ou conexões com a economia atual.
 3. Se for um post de notícias, explique como aquilo afeta o bolso do brasileiro comum.
 4. O tom deve ser encorajador, simples, mas muito profissional e direto.
-5. O formato do JSON deve ser exatamente este:
+5. O formato do JSON deve ser EXATAMENTE este:
 {
   "title": "Um título chamativo e focado em SEO (evite títulos genéricos)",
   "description": "Uma breve descrição de 2 linhas para os metadados (SEO)",
@@ -117,9 +126,11 @@ No final do post (último parágrafo), inclua o CTA:
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const textRaw = response.text();
+    const jsonString = extractJSON(textRaw);
     
-    // Tenta limpar o raw text caso o Gemini mande tags markdown
-    const jsonString = textRaw.replace(/```json\n/g, '').replace(/```\n?/g, '').trim();
+    if (!jsonString) {
+      throw new Error(`Não foi possível encontrar JSON no conteúdo gerado: ${textRaw}`);
+    }
     
     const postData = JSON.parse(jsonString);
 
@@ -229,4 +240,14 @@ function pickWeightedCategory() {
   if (rand < 40) return 'Economia Doméstica (Orçamento, poupança, dicas de consumo real)';
   if (rand < 70) return 'Investimentos (Renda Fixa, Bolsa de Valores, Planejamento de longo prazo)';
   return 'Notícias e Atualidades Financeiras Reais';
+}
+
+/**
+ * Extrai o primeiro bloco JSON encontrado em um texto, ignorando conversas extras.
+ */
+function extractJSON(text) {
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf('}');
+  if (start === -1 || end === -1) return null;
+  return text.substring(start, end + 1);
 }
