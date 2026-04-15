@@ -29,3 +29,16 @@ Foi adaptado um arquivo `.htaccess` inserido na pasta `public` do projeto Next.j
 
 ## 6. Como Manter este Documento
 Ao realizar qualquer mudança arquitetural, adicionar integrações de Banco de Dados, regras de redirecionamento ou novos plug-ins no Front-End, por favor, proceda com o apêndice neste documento em novas sessões para que a base de conhecimento (Brain) ou seu assistente mantenha-se com máxima consciência sobre a máquina do GranaHub!
+
+## 7. Dashboard de Analytics (`/gh-secret-stats-2026`)
+- **Rota**: `/gh-secret-stats-2026` — protegida com `noindex, nofollow`
+- **Dados em tempo de build**: O script `tools/fetch-analytics.mjs` é executado antes do `next build` (via `npm run build`). Ele busca dados reais do GA4 e Search Console e grava em `src/data/analytics.json`.
+- **Fallback gracioso**: Se as variáveis de ambiente não estiverem disponíveis (ex: build local), o script grava dados zerados e o build conclui normalmente sem erros.
+- **Secrets necessários no GitHub Actions** (Settings → Secrets → Actions):
+  - `GOOGLE_SERVICE_ACCOUNT_JSON`: JSON completo da Service Account do Google Cloud
+  - `GA4_PROPERTY_ID`: ID numérico da propriedade GA4 (ex: `123456789`)
+  - `SEARCH_CONSOLE_SITE_URL`: URL do site no Search Console (ex: `https://blog.granahub.com.br/`)
+- **APIs habilitadas**: Google Analytics Data API + Google Search Console API
+- **Permissões da Service Account**: Leitor no GA4 + Restrito no Search Console
+- **Dados exibidos**: Usuários (30d), Page Views (30d), Cliques Google, Tempo médio de sessão, variações vs. período anterior, Top 10 páginas, Top 10 termos de busca (CTR, impressões, posição)
+
