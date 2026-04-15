@@ -2,7 +2,6 @@ import React from 'react';
 import { 
   Users, 
   Eye, 
-  CursorClick, 
   TrendingUp, 
   Search, 
   MousePointer2,
@@ -23,7 +22,7 @@ export const metadata: Metadata = {
 const stats = [
   { name: 'Usuários Ativos (Hoje)', value: '142', change: '+12%', type: 'positive', icon: Users },
   { name: 'Visualizações de Página', value: '1.284', change: '+18.4%', type: 'positive', icon: Eye },
-  { name: 'Cliques no WhatsApp', value: '86', change: '+5.2%', type: 'positive', icon: CursorClick },
+  { name: 'Cliques no WhatsApp', value: '86', change: '+5.2%', type: 'positive', icon: MousePointer2 },
   { name: 'Tempo Médio', value: '2m 14s', change: '-1.1%', type: 'negative', icon: Clock },
 ];
 
