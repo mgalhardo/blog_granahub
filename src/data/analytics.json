@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-04-15T02:58:49.677Z",
+  "isReal": false,
+  "ga4": {
+    "totalUsers": 0,
+    "sessions": 0,
+    "pageViews": 0,
+    "avgSessionDurationSeconds": 0,
+    "usersChange": 0,
+    "pageViewsChange": 0,
+    "durationChange": 0,
+    "topPages": []
+  },
+  "searchConsole": {
+    "impressions": 0,
+    "clicks": 0,
+    "ctr": 0,
+    "position": 0,
+    "topQueries": []
+  }
+}
