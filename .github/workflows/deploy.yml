@@ -37,6 +37,6 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 65002
           local_path: ./out/
-          remote_path: /home/u624347113/domains/blog.granahub.com.br/public_html/
-          delete_remote_files: true
+          remote_path: domains/blog.granahub.com.br/public_html/
+          delete_remote_files: false
           sftp_only: true
