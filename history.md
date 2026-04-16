@@ -27,6 +27,8 @@
 - **Funcionalidades**:
   - Botão WhatsApp para compartilhar artigos
   - Botão Copiar Link para compartilhar em outras redes
+- **Ordem ajustada**: Compartilhamento fica acima do CTA do GranaHub
+- **CTA alterado**: "Gostou do artigo?" → "Quer dominar suas finanças?"
 - **Resultado**: Build executado com sucesso e publicado
 
 ## 2026-04-14
