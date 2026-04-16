@@ -32,10 +32,11 @@ jobs:
       - name: Deploy to Hostinger via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          host: ${{ secrets.FTP_SERVER }}
-          user: ${{ secrets.FTP_USERNAME }}
-          pass: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           port: 65002
-          localDir: ./out/
-          remoteDir: /home/u624347113/domains/blog.granahub.com.br/public_html/
-          deleteRemote: true
+          local_path: ./out/
+          remote_path: /home/u624347113/domains/blog.granahub.com.br/public_html/
+          delete_remote_files: true
+          sftp_only: true
