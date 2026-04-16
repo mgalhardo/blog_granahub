@@ -16,6 +16,9 @@
   RewriteEngine On
   RewriteBase /
 
+  # Redirecionamentos 301
+  RewriteRule ^posts/inflacao-dividas-proteger-bolso-2024/$ /posts/inflacao-dividas-proteger-bolso/ [R=301,L]
+
   # Serve arquivos existentes diretamente
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
