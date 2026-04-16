@@ -29,14 +29,15 @@ jobs:
           SEARCH_CONSOLE_SITE_URL: ${{ secrets.SEARCH_CONSOLE_SITE_URL }}
         run: npm run build
 
-      - name: Deploy to Hostinger via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      - name: Deploy to Hostinger via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: 65002
-          local_path: ./out/
-          remote_path: domains/blog.granahub.com.br/public_html/
-          delete_remote_files: false
-          sftp_only: true
+          port: 21
+          protocol: ftps
+          local-dir: ./out/
+          server-dir: domains/blog.granahub.com.br/public_html/
+          dangerous-clean-slate: false
+          timeout: 600000
