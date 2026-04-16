@@ -1,0 +1,4 @@
+Deploy Test - GitHub Actions (lftp)
+Status: Verifying relative path
+Timestamp: 2026-04-16 18:18 BRT
+🚀 Blog GranaHub - Deployment Pipeline Fix

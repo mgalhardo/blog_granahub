@@ -40,6 +40,6 @@ jobs:
         run: |
           lftp -u "$SS_USER","$SS_PASS" sftp://$SS_HOST:65002 -e "
           set sftp:auto-confirm yes;
-          cd /home/u624347113/domains/blog.granahub.com.br/public_html;
+          cd domains/blog.granahub.com.br/public_html;
           mirror -R --delete ./out/ .;
           bye"
