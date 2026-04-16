@@ -59,7 +59,7 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
             })}
           </time>
           <span className="w-1 h-1 rounded-full bg-gray-300" />
-          <span className="text-sm">GranaHub IA</span>
+          <span className="text-sm">Da Redação</span>
         </div>
       </header>
 
