@@ -2,7 +2,7 @@
 title: "Inadimplência Recorde: O Guia Definitivo da 'Operação Resgate' para Sair das Dívidas"
 date: "2026-04-16"
 description: "Com a inadimplência em alta, saiba como a 'Operação Resgate' pode ser a sua chance de renegociar dívidas. Um guia prático para recuperar sua saúde financeira."
-coverImage: "https://images.pexels.com/photos/5849550/pexels-photo-5849550.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+coverImage: "/images/liberdade-financeira-dividas.png"
 category: "Economia Doméstica"
 ---
 
