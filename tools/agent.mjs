@@ -114,6 +114,7 @@ TEMA DO POST: ${temaEscolhido}
     "content": "O post completo em Markdown. Use ## e ###. Inclua listas impactantes e um parágrafo final de reflexão/conselho."
   }
   6. IMPORTANTE: O slug deve ser sempre atemporal. NÃO inclua anos (como 2024, 2025, 2026) no slug, pois o post pode ser relevante por anos. Use apenas palavras-chave do título.
+  7. A categoria é OBRIGATÓRIA e deve ser uma das: "Economia Doméstica", "Investimentos", "Planejamento", "Imposto de Renda", "GranaHub"
 
 CATEGORIA DEFINIDA: ${process.env.POST_CATEGORY || 'Finanças'}
 
