@@ -21,7 +21,7 @@ async function runAgent() {
   }
 
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const PRIMARY_MODEL = "gemini-2.5-flash";
+  const PRIMARY_MODEL = "gemini-2.0-flash";
 
   const sugestoesPath = path.join(rootDir, 'content', 'sugestoes.md');
   const postsDir = path.join(rootDir, 'content', 'posts');

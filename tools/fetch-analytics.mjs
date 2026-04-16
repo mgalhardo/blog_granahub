@@ -53,20 +53,29 @@ function saveData(data) {
 
 async function getAuthClient() {
   if (!SERVICE_ACCOUNT_JSON) {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON env var not set');
+    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON env var not set or empty');
   }
 
-  const credentials = JSON.parse(SERVICE_ACCOUNT_JSON);
-  
-  const auth = new google.auth.GoogleAuth({
-    credentials,
-    scopes: [
-      'https://www.googleapis.com/auth/analytics.readonly',
-      'https://www.googleapis.com/auth/webmasters.readonly',
-    ],
-  });
+  try {
+    const credentials = JSON.parse(SERVICE_ACCOUNT_JSON);
+    console.log('🔑 Service Account JSON parsed successfully.');
+    
+    if (!credentials.client_email || !credentials.private_key) {
+      throw new Error('Service Account JSON is missing client_email or private_key');
+    }
 
-  return auth;
+    const auth = new google.auth.GoogleAuth({
+      credentials,
+      scopes: [
+        'https://www.googleapis.com/auth/analytics.readonly',
+        'https://www.googleapis.com/auth/webmasters.readonly',
+      ],
+    });
+
+    return auth;
+  } catch (err) {
+    throw new Error(`Failed to initialize Google Auth: ${err.message}`);
+  }
 }
 
 async function fetchGA4Data(auth) {

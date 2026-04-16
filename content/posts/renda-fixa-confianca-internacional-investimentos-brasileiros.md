@@ -2,7 +2,7 @@
 title: "Renda Fixa e €5 Bilhões: O Que a Confiança Internacional Muda no Seu Bolso Brasileiro?"
 date: "2026-04-16"
 description: "Entenda como a captação recorde de €5 bilhões pelo Brasil impacta diretamente seus investimentos em renda fixa e a economia do país, indo além dos grandes números."
-coverImage: "https://images.pexels.com/photos/3806749/pexels-photo-3806749.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+coverImage: "/images/investimento-global-brasil.png"
 category: "Investimentos"
 ---
 

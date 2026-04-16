@@ -23,7 +23,12 @@ function generateSitemap() {
     });
 
   const urls = [
-    { loc: BASE_URL, priority: '1.0', changefreq: 'daily' },
+    { 
+      loc: `${BASE_URL}/`, 
+      lastmod: new Date().toISOString().split('T')[0],
+      priority: '1.0', 
+      changefreq: 'daily' 
+    },
     ...posts.map(post => ({
       loc: `${BASE_URL}/posts/${post.slug}/`,
       priority: '0.8',

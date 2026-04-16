@@ -10,7 +10,8 @@ Este arquivo tem como objetivo registrar configurações, lógicas aplicadas e o
 ## 2. Configurações Estruturais Críticas (`next.config.ts`)
 - **Exportação Estática**: O painel e o blog do GranaHub funcionam com hospedagem estática e sem servidor NodeJS próprio. Por causa disso, o arquivo de configuração exporta o build usando o comando `output: 'export'`.
 - **Roteamento de Diretórios (`trailingSlash: true`)**: Extremamente crítico. Habilitamos `trailingSlash: true`. Se isso for desligado, um acesso direto a um link gerará **Erro 403 Forbidden**. Isso ocorre pois servidores Apache (Hostinger) buscam a rota internamente como pastas. Tendo essa tag ativada, o Next.js constrói uma página física real `index.html` dentro da pasta exata da URL, fazendo com que o acesso direto pelos navegadores encontre a página correspondente.
-- **Imagens Não-Otimizadas**: `images: { unoptimized: true }` habilitado para contornar limitações do Server Side do componente `next/image` quando combinados em build local ou Actions que não contam com o processamento otimizado de imagens no servidor e causam a quebra de caminhos ou URLs remotas, facilitando também a exibição de capas salvas externamente, como links do Unsplash.
+- **Imagens Não-Otimizadas**: `images: { unoptimized: true }` habilitado para contornar limitações do Server Side do componente `next/image` quando combinados em build local ou Actions que não contam com o processamento otimizado de imagens no servidor e causam a quebra de caminhos ou URLs remotas, facilitando também a exibição de capas salvas externamente, como links do Unsplash e Pexels.
+- **Autor Padrão**: Foi definido que o autor dos posts deve ser exibido como **"Da Redação"** em vez de "GranaHub IA" para transmitir mais profissionalismo. Esta alteração é feita em `src/app/posts/[slug]/page.tsx`.
 
 ## 3. Comportamento do Servidor (`public/.htaccess`)
 Foi adaptado um arquivo `.htaccess` inserido na pasta `public` do projeto Next.js. O conteúdo desse arquivo será jogado em `out/.htaccess` após cada compilação e é vital para que a configuração estática funcione bem no Hostinger:
@@ -26,6 +27,8 @@ Foi adaptado um arquivo `.htaccess` inserido na pasta `public` do projeto Next.j
 - **Integração Pexels**: O robô (`tools/agent.mjs`) utiliza a `PEXELS_API_KEY` (configurada nos Secrets do GitHub) para buscar imagens de capa dinâmicas e contextuais.
 - **Sistema de Fallback (Reserva)**: Caso a API do Pexels falhe ou a chave não esteja presente, o robô conta com uma lista de URLs validadas do Unsplash. Ele seleciona uma aleatoriamente para garantir que nenhum post fique sem imagem ou com imagem quebrada (Erro 404).
 - **Refinamento de Títulos**: Observou-se que o robô pode gerar títulos excessivamente sensacionalistas (estilo "clickbait"). O fluxo recomendado é revisar o título no Pull Request e ajustar para um tom mais prático e direto, condizente com a voz da marca GranaHub, antes de realizar o Merge.
+- **Slugs Atemporais**: O robô está proibido de incluir anos (ex: 2024, 2025) nos slugs dos posts para garantir que os links permaneçam válidos e relevantes por longo prazo sem parecerem datados.
+- **Categorias Restritas**: O robô deve usar apenas categorias pré-aprovadas: "Economia Doméstica", "Investimentos", "Planejamento", "Imposto de Renda" ou "GranaHub".
 
 ## 6. Como Manter este Documento
 Ao realizar qualquer mudança arquitetural, adicionar integrações de Banco de Dados, regras de redirecionamento ou novos plug-ins no Front-End, por favor, proceda com o apêndice neste documento em novas sessões para que a base de conhecimento (Brain) ou seu assistente mantenha-se com máxima consciência sobre a máquina do GranaHub!
@@ -40,5 +43,14 @@ Ao realizar qualquer mudança arquitetural, adicionar integrações de Banco de 
   - `SEARCH_CONSOLE_SITE_URL`: URL do site no Search Console (ex: `https://blog.granahub.com.br/`)
 - **APIs habilitadas**: Google Analytics Data API + Google Search Console API
 - **Permissões da Service Account**: Leitor no GA4 + Restrito no Search Console
-- **Dados exibidos**: Usuários (30d), Page Views (30d), Cliques Google, Tempo médio de sessão, variações vs. período anterior, Top 10 páginas, Top 10 termos de busca (CTR, impressões, posição)
+- **Status Atual**: Atualmente o dashboard pode exibir `isReal: false` se as credenciais não forem validadas corretamente ou se as APIs estiverem desativadas no console do Google Cloud.
+
+## 8. Componente de Compartilhamento
+- **Arquivo**: `src/components/ShareArticle.tsx`
+- **Funcionalidades**: Botão dedicado para compartilhamento via WhatsApp e botão para copiar o link do artigo. Localizado acima do CTA final de cada post.
+
+## 9. Política de Publicação e Infraestrutura
+- **Deploy**: Realizado via GitHub Actions usando `rsync` sobre SSH (porta 65002). 
+- **Incidentes SSH**: O servidor Hostinger ocasionalmente bloqueia conexões SSH provenientes do GitHub Actions. Caso o deploy falhe, o upload manual via FTP/SFX é o método de contigência.
+- **Sitemap**: Gerado dinamicamente em `public/sitemap.xml` pelo script `tools/sitemap-generator.mjs` durante o processo de build. Inclui a página inicial e todos os posts.
 

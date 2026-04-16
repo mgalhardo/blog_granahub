@@ -55,6 +55,6 @@ Sair das dívidas é um recomeço. Para não cair na mesma armadilha:
 *   **Corte Gastos Desnecessários:** Reveja suas despesas. Há assinaturas que não usa? Saídas que podem ser substituídas por lazer mais barato?
 *   **Busque Rendas Extras:** Pequenas fontes de renda podem fazer uma grande diferença no seu orçamento.
 
-A jornada para a liberdade financeira pode ser desafiadora, mas é totalmente possível. A 'Operação Resgate' é uma ferramenta poderosa, mas o sucesso depende da sua atitude e disciplina. Dê o primeiro passo hoje, organize suas finanças e construa um futuro mais tranquilo para você e sua família.
+A jornada para a liberdade financeira pode be desafiadora, mas é totalmente possível. A 'Operação Resgate' é uma ferramenta poderosa, mas o sucesso depende da sua atitude e disciplina. Dê o primeiro passo hoje, organize suas finanças e construa um futuro mais tranquilo para você e sua família.
 
 [Inicie seu teste grátis.](https://app.granahub.com.br/auth?mode=register&planType=month)
