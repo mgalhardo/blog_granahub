@@ -99,20 +99,21 @@ Sua missão é escrever um post diário de alta qualidade.
 
 TEMA DO POST: ${temaEscolhido}
 
-Regras Cruciais:
-1. Retorne APENAS um objeto JSON válido. NÃO inclua texto introdutório, cumprimentos ou explicações fora do JSON.
-2. Fuja do óbvio. Não fale apenas de "economizar cafézinho". Traga insights reais, dados ou conexões com a economia atual.
-3. Se for um post de notícias, explique como aquilo afeta o bolso do brasileiro comum.
-4. O tom deve ser encorajador, simples, mas muito profissional e direto.
-5. O formato do JSON deve ser EXATAMENTE este:
-{
-  "title": "Um título chamativo e focado em SEO (evite títulos genéricos)",
-  "description": "Uma breve descrição de 2 linhas para os metadados (SEO)",
-  "slug": "url-amigavel-do-post",
-  "category": "A categoria definida no passo anterior",
-  "searchTermForImage": "uma palavra chave em INGLÊS para imagem de capa",
-  "content": "O post completo em Markdown. Use ## e ###. Inclua listas impactantes e um parágrafo final de reflexão/conselho."
-}
+  Regras Cruciais:
+  1. Retorne APENAS um objeto JSON válido. NÃO inclua texto introdutório, cumprimentos ou explicações fora do JSON.
+  2. Fuja do óbvio. Não fale apenas de "economizar cafézinho". Traga insights reais, dados ou conexões com a economia atual.
+  3. Se for um post de notícias, explique como aquilo afeta o bolso do brasileiro comum.
+  4. O tom deve ser encorajador, simples, mas muito profissional e direto.
+  5. O formato do JSON deve ser EXATAMENTE este:
+  {
+    "title": "Um título chamativo e focado em SEO (evite títulos genéricos)",
+    "description": "Uma breve descrição de 2 linhas para os metadados (SEO)",
+    "slug": "url-amigavel-do-post (NÃO inclua anos no slug, use apenas o título limpo em minúsculas)",
+    "category": "A categoria definida no passo anterior",
+    "searchTermForImage": "uma palavra chave em INGLÊS para imagem de capa",
+    "content": "O post completo em Markdown. Use ## e ###. Inclua listas impactantes e um parágrafo final de reflexão/conselho."
+  }
+  6. IMPORTANTE: O slug deve ser sempre atemporal. NÃO inclua anos (como 2024, 2025, 2026) no slug, pois o post pode ser relevante por anos. Use apenas palavras-chave do título.
 
 CATEGORIA DEFINIDA: ${process.env.POST_CATEGORY || 'Finanças'}
 
