@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -31,11 +30,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to Hostinger via SFTP
-        uses: atmoz/sftp-deploy@v1.2.1
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          port: ${{ secrets.FTP_PORT || 22 }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local_dir: ./out/
-          remote_dir: /domains/blog.granahub.com.br/public_html/
+        run: |
+          sudo apt-get update && sudo apt-get install -y sshpass
+          sshpass -p "${{ secrets.FTP_PASSWORD }}" rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -p 65002" ./out/ ${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_SERVER }}:/home/u624347113/domains/blog.granahub.com.br/public_html/
+          echo "✅ Deploy concluído com sucesso!"
