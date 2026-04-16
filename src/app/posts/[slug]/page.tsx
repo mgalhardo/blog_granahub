@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
+import ShareArticle from '@/components/ShareArticle';
 
 export async function generateStaticParams() {
   const slugs = getPostSlugs();
@@ -94,6 +95,8 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
             Conhecer o GranaHub
           </a>
         </div>
+        
+        <ShareArticle title={post.meta.title} />
       </div>
 
       {/* Related Posts Section */}
