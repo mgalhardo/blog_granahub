@@ -40,5 +40,6 @@ jobs:
         run: |
           lftp -u "$SS_USER","$SS_PASS" sftp://$SS_HOST:65002 -e "
           set sftp:auto-confirm yes;
-          mirror -R --delete ./out/ public_html;
+          cd public_html || true;
+          mirror -R --delete ./out/ .;
           bye"
