@@ -19,6 +19,16 @@
 - **Solução**: Renomeado arquivo para `inflacao-dividas-proteger-bolso.md`
 - **Prevenção**: Atualizado o prompt do agente em `tools/agent.mjs` para que slugs sejam sempre atemporais (sem anos)
 
+### Compartilhamento de artigos
+
+- **Nova funcionalidade**: Adicionado componente de compartilhamento no final de cada artigo
+- **Arquivo criado**: `src/components/ShareArticle.tsx`
+- **Arquivo modificado**: `src/app/posts/[slug]/page.tsx`
+- **Funcionalidades**:
+  - Botão WhatsApp para compartilhar artigos
+  - Botão Copiar Link para compartilhar em outras redes
+- **Resultado**: Build executado com sucesso e publicado
+
 ## 2026-04-14
 
 ### Correção de erro no build
