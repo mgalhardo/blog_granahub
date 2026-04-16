@@ -1,5 +1,30 @@
 # History
 
+## 2026-04-16
+
+### Correções diversas
+
+- **Problema 1**: Componente "Compartilhe este artigo" estava duplicado em todas as páginas
+- **Solução**: Removida duplicação em `src/app/posts/[slug]/page.tsx`
+- **Problema 2**: Post "tendencias-virais" estava sem categoria
+- **Solução**: Adicionada categoria "Economia Doméstica"
+- **Problema 3**: Agente criando posts sem categoria
+- **Solução**: Adicionada validação no prompt do agente para exigir categoria válida
+
+### Dashboard de Analytics
+
+- **Status**: Implementado e funcionando
+- **URL**: `/gh-secret-stats-2026/`
+- **Dados**: Buscados em tempo de build via Google Analytics 4 e Search Console
+- **Problema**: Secrets configurados mas dados aparecem como fallback (isReal: false)
+- **Causa**: Possível erro na validação das credenciais da Service Account
+- **Solução pendente**: Verificar se o JSON da Service Account está correto e com permissões no GA4
+
+### Deploy
+
+- **Problema**: GitHub Actions falhando ao conectar no servidor Hostinger
+- **Método alternativo**: Upload manual por FTP até resolver a conexão SSH
+
 ## 2026-04-15
 
 ### Troca do autor dos artigos
