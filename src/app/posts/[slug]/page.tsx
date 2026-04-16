@@ -78,10 +78,14 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
         <ReactMarkdown>{post.content}</ReactMarkdown>
       </div>
 
+      <ShareArticle title={post.meta.title} />
+
+      <ShareArticle title={post.meta.title} />
+
       <div className="mt-16 pt-8 border-t border-gray-100 mb-16">
         <div className="bg-gradient-hero rounded-3xl p-8 text-center shadow-sm">
           <h3 className="text-2xl font-bold text-granahub-text mb-2">
-            Gostou do artigo?
+            Quer dominar suas finanças?
           </h3>
           <p className="text-granahub-text-secondary mb-6 max-w-xl mx-auto">
             Experimente o GranaHub e assuma o controle da sua vida financeira diretamente pelo WhatsApp. Zero complicação.
@@ -95,8 +99,6 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
             Conhecer o GranaHub
           </a>
         </div>
-        
-        <ShareArticle title={post.meta.title} />
       </div>
 
       {/* Related Posts Section */}
