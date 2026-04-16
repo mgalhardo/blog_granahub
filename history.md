@@ -29,6 +29,8 @@
   - Botão Copiar Link para compartilhar em outras redes
 - **Ordem ajustada**: Compartilhamento fica acima do CTA do GranaHub
 - **CTA alterado**: "Gostou do artigo?" → "Quer dominar suas finanças?"
+- **Redirect 301**: Adicionado no .htaccess para URL antiga com 2024
+- **Remoção**: Arquivo com slug antigo (2024) removido permanentemente do repositório
 - **Resultado**: Build executado com sucesso e publicado
 
 ## 2026-04-14
