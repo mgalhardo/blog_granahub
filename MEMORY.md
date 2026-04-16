@@ -50,7 +50,7 @@ Ao realizar qualquer mudança arquitetural, adicionar integrações de Banco de 
 - **Funcionalidades**: Botão dedicado para compartilhamento via WhatsApp e botão para copiar o link do artigo. Localizado acima do CTA final de cada post.
 
 ## 9. Política de Publicação e Infraestrutura
-- **Deploy**: Realizado via GitHub Actions usando `wlixcc/SFTP-Deploy-Action` sobre SFTP (porta 65002).
-- **Incidentes SFTP**: O servidor Hostinger ocasionalmente bloqueia conexões SSH/SFTP provenientes do GitHub Actions. A action atual lida com o protocolo SFTP de forma dedicada.
+- **Deploy**: Realizado via GitHub Actions usando `SamKirkland/FTP-Deploy-Action` sobre FTP simples (porta 21). 
+- **Path de Deploy**: O blog é um site independente na Hostinger, então o deploy aponta diretamente para `public_html/`.
 - **Sitemap**: Gerado dinamicamente em `public/sitemap.xml` pelo script `tools/sitemap-generator.mjs` durante o processo de build. Inclui a página inicial e todos os posts.
 
