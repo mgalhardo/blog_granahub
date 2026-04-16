@@ -3,6 +3,7 @@ title: "Tendências Virais de Finanças no Brasil: Turbine Seu Bolso Rápido!"
 date: "2026-04-10"
 description: "Confira as tendências financeiras mais comentadas no Brasil e descubra como aplicar dicas virais para organizar seu dinheiro e economizar rapidinho."
 coverImage: "https://images.pexels.com/photos/27797871/pexels-photo-27797871.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+category: "Economia Doméstica"
 ---
 
 Olá, GranaHubbers!
