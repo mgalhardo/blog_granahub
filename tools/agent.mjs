@@ -101,6 +101,7 @@ TEMA DO POST: ${temaEscolhido}
   }
   6. IMPORTANTE: O slug deve ser sempre atemporal. NÃO inclua anos (como 2024, 2025, 2026) no slug, pois o post pode ser relevante por anos. Use apenas palavras-chave do título.
   7. A categoria é OBRIGATÓRIA e deve ser uma das: "Economia Doméstica", "Investimentos", "Planejamento", "Imposto de Renda", "GranaHub"
+  8. FORMATO JSON: Certifique-se de que todas as quebras de linha no campo "content" sejam escapadas como '\\n'. Jamais inclua quebras de linha reais (Enter) dentro das aspas do JSON.
 
 CATEGORIA DEFINIDA: ${process.env.POST_CATEGORY || 'Finanças'}
 
@@ -325,7 +326,14 @@ function extractJSON(text) {
   const start = text.indexOf('{');
   const end = text.lastIndexOf('}');
   if (start === -1 || end === -1) return null;
-  return text.substring(start, end + 1);
+  
+  let jsonString = text.substring(start, end + 1);
+  
+  // Heurística de segurança: substituir quebras de linha reais dentro de aspas por \n literal
+  // Isso evita o erro "Bad control character in string literal" no JSON.parse
+  return jsonString.replace(/"([^"]*)"/g, (match, p1) => {
+    return `"${p1.replace(/\n/g, '\\n').replace(/\r/g, '\\r')}"`;
+  });
 }
 
 runAgent().catch(err => {

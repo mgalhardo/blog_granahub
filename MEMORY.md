@@ -32,7 +32,14 @@ Foi adaptado um arquivo `.htaccess` inserido na pasta `public` do projeto Next.j
 - **Slugs Atemporais**: O robô está proibido de incluir anos (ex: 2024, 2025) nos slugs dos posts para garantir que os links permaneçam válidos e relevantes por longo prazo sem parecerem datados.
 - **Categorias Restritas**: O robô deve usar apenas categorias pré-aprovadas: "Economia Doméstica", "Investimentos", "Planejamento", "Imposto de Renda" ou "GranaHub".
 
-## 6. Como Manter este Documento
+## 6. Política de Redundância de IA (Triple Failover)
+Para garantir 100% de disponibilidade na geração de posts, o robô (`tools/agent.mjs`) utiliza três camadas de inteligência:
+1.  **Google Gemini (Primário):** Tenta modelos 2.0 Flash e 1.5 Pro.
+2.  **Groq (Secundário):** Acionado se o Google falhar. Utiliza o modelo `llama-3.3-70b-versatile` (LPU - Ultra rápido).
+3.  **ZimaOS Local (Backup):** Última instância via Cloudflare Tunnel (`scribe.granahub.com.br`). Utiliza o modelo local `qwen2.5:1.5b`.
+- **Segurança Local:** O acesso ao ZimaOS é protegido por **Cloudflare Service Tokens** (`CF_ACCESS_CLIENT_ID` / `CF_ACCESS_CLIENT_SECRET`).
+
+## 7. Como Manter este Documento
 Ao realizar qualquer mudança arquitetural, adicionar integrações de Banco de Dados, regras de redirecionamento ou novos plug-ins no Front-End, por favor, proceda com o apêndice neste documento em novas sessões para que a base de conhecimento (Brain) ou seu assistente mantenha-se com máxima consciência sobre a máquina do GranaHub!
 
 ## 7. Dashboard de Analytics (`/gh-secret-stats-2026`)
