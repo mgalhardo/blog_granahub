@@ -50,7 +50,9 @@ Ao realizar qualquer mudança arquitetural, adicionar integrações de Banco de 
 - **Funcionalidades**: Botão dedicado para compartilhamento via WhatsApp e botão para copiar o link do artigo. Localizado acima do CTA final de cada post.
 
 ## 9. Política de Publicação e Infraestrutura
-- **Deploy**: Realizado via GitHub Actions usando `SamKirkland/FTP-Deploy-Action` sobre FTP simples (porta 21). 
-- **Path de Deploy**: O blog é um site independente na Hostinger, então o deploy aponta diretamente para `public_html/`.
+- **Deploy**: Realizado via GitHub Actions usando `lftp` sobre **SFTP** (porta **65002**). Host: `82.29.199.52`, Usuário: `u624347113`.
+- **Path de Deploy**: Caminho absoluto completo: `/home/u624347113/domains/blog.granahub.com.br/public_html`
+- **Secrets GitHub**: `SFTP_HOST`, `SFTP_USER`, `SFTP_PASS` (configurados em Settings → Secrets → Actions)
+- **Referência completa**: Ver arquivo `kodee_hostinger.md` na raiz do projeto com todas as informações do suporte Hostinger.
 - **Sitemap**: Gerado dinamicamente em `public/sitemap.xml` pelo script `tools/sitemap-generator.mjs` durante o processo de build. Inclui a página inicial e todos os posts.
 
