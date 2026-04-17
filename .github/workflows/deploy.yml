@@ -8,16 +8,14 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - name: Checkou Codte
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '20'
 
       - name: Install Dependencies
         run: npm ci
@@ -37,7 +35,7 @@ jobs:
           SS_HOST: ${{ secrets.FTP_SERVER }}
           SS_USER: ${{ secrets.FTP_USERNAME }}
           SS_PASS: ${{ secrets.FTP_PASSWORD }}
-      run: |
+        run: |
           lftp -e "
           set sftp:password \"$SS_PASS\";
           set sftp:auto-confirm yes;
