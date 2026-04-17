@@ -15,14 +15,6 @@ dotenv.config({ path: path.join(rootDir, '.env') });
 async function runAgent() {
   console.log('🤖 Iniciando Agente GranaHub...');
 
-  if (!process.env.GEMINI_API_KEY) {
-    console.error('❌ ERRO: GEMINI_API_KEY não foi encontrada nos Segredos (Secrets) ou no arquivo .env');
-    process.exit(1);
-  }
-
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const PRIMARY_MODEL = "gemini-2.0-flash";
-
   const sugestoesPath = path.join(rootDir, 'content', 'sugestoes.md');
   const postsDir = path.join(rootDir, 'content', 'posts');
   let sugestoesContent = '';
@@ -76,22 +68,16 @@ REGRAS:
 FORMATO: {"tema": "...", "categoria": "..."}
 `;
 
-    const brainstormResult = await callWithRetry(genAI, PRIMARY_MODEL, brainstormPrompt);
-    const brainstormRaw = brainstormResult.response.text();
-    const brainstormJson = extractJSON(brainstormRaw);
+    const brainstormResult = await generateAIContent(brainstormPrompt);
+    const brainstormData = JSON.parse(brainstormResult);
     
-    if (!brainstormJson) {
-      throw new Error(`Não foi possível encontrar JSON no brainstorming: ${brainstormRaw}`);
-    }
-
-    const brainstormData = JSON.parse(brainstormJson);
     temaEscolhido = brainstormData.tema;
     const categoriaEscolhida = brainstormData.categoria;
     console.log(`💡 Brainstorming concluiu: "${temaEscolhido}" na categoria "${categoriaEscolhida}"`);
     process.env.POST_CATEGORY = categoriaEscolhida; // Guardar para o próximo passo
   }
 
-  console.log('✍️  Gerando conteúdo com Gemini...');
+  console.log('✍️  Gerando conteúdo do post...');
 
   const prompt = `Você é um especialista em finanças pessoais, trabalhando como redator para o blog "GranaHub". 
 O GranaHub é um aplicativo focado em controle financeiro 100% pelo WhatsApp, focado no público brasileiro.
@@ -123,19 +109,12 @@ No final do post (último parágrafo), inclua o CTA:
 `;
 
   try {
-    const result = await callWithRetry(genAI, PRIMARY_MODEL, prompt);
-    const response = await result.response;
-    const textRaw = response.text();
-    const jsonString = extractJSON(textRaw);
-    
-    if (!jsonString) {
-      throw new Error(`Não foi possível encontrar JSON no conteúdo gerado: ${textRaw}`);
-    }
-    
+    const jsonString = await generateAIContent(prompt);
     const postData = JSON.parse(jsonString);
 
     console.log(`✅ Conteúdo gerado! Título: ${postData.title}`);
 
+    // Sistema de Imagem de Capa
     const fallbacks = [
       "https://images.unsplash.com/photo-1574607383476-f517f260d30b?q=80&w=2074&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?q=80&w=2069&auto=format&fit=crop",
@@ -203,10 +182,110 @@ ${lowerPart}`;
   }
 }
 
-runAgent().catch(err => {
-    console.error('❌ Erro Fatal no Agente:', err);
-    process.exit(1);
-});
+/**
+ * Função Mestra de Geração de Conteúdo com Redundância Tripla.
+ * Tenta: Gemini -> Groq -> Local Ollama
+ */
+async function generateAIContent(prompt) {
+  // 1. Tentar Gemini (Provedor Primário)
+  if (process.env.GEMINI_API_KEY) {
+    console.log('📡 [1/3] Tentando Google Gemini...');
+    try {
+      const result = await callGemini(prompt);
+      const json = extractJSON(result);
+      if (json) return json;
+    } catch (e) {
+      console.warn('⚠️ Gemini falhou ou retornou formato inválido.');
+    }
+  }
+
+  // 2. Tentar Groq (Provedor Secundário)
+  if (process.env.GROQ_API_KEY) {
+    console.log('📡 [2/3] Tentando Groq (Llama 3.3)...');
+    try {
+      const result = await callGroq(prompt);
+      const json = extractJSON(result);
+      if (json) return json;
+    } catch (e) {
+      console.warn('⚠️ Groq falhou ou retornou formato inválido.');
+    }
+  }
+
+  // 3. Tentar Local Ollama via ZimaOS (Última Instância)
+  if (process.env.LOCAL_AI_URL && process.env.CF_ACCESS_CLIENT_ID) {
+    console.log('🏠 [3/3] Tentando IA Local (ZimaOS via Cloudflare)...');
+    try {
+      const result = await callLocalOllama(prompt);
+      const json = extractJSON(result);
+      if (json) return json;
+    } catch (e) {
+      console.warn('⚠️ IA Local falhou ou retornou formato inválido.');
+    }
+  }
+
+  throw new Error('❌ Falha total: Nenhum provedor de IA conseguiu gerar o conteúdo.');
+}
+
+// --- Provedores Individuais ---
+
+async function callGemini(prompt) {
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const models = ["gemini-2.0-flash", "gemini-1.5-pro-latest", "gemini-1.5-flash-latest"];
+  
+  for (const modelName of models) {
+    try {
+      console.log(`   └─ Usando modelo: ${modelName}`);
+      const model = genAI.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(prompt);
+      return result.response.text();
+    } catch (e) {
+      console.warn(`   └─ Erro no modelo ${modelName}: ${e.message}`);
+    }
+  }
+  throw new Error('Todos os modelos Gemini falharam.');
+}
+
+async function callGroq(prompt) {
+  const url = 'https://api.groq.com/openai/v1/chat/completions';
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.7
+    })
+  });
+  
+  if (!res.ok) throw new Error(`Groq API error: ${res.status}`);
+  const data = await res.json();
+  return data.choices[0].message.content;
+}
+
+async function callLocalOllama(prompt) {
+  // Usamos o endpoint compatível com OpenAI do Ollama por ser padrão
+  const url = `${process.env.LOCAL_AI_URL}/v1/chat/completions`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'CF-Access-Client-Id': process.env.CF_ACCESS_CLIENT_ID,
+      'CF-Access-Client-Secret': process.env.CF_ACCESS_CLIENT_SECRET,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: 'qwen2.5:1.5b',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.7
+    })
+  });
+
+  if (!res.ok) throw new Error(`Local AI error: ${res.status}`);
+  const data = await res.json();
+  return data.choices[0].message.content;
+}
 
 // --- Funções Auxiliares ---
 
@@ -242,9 +321,6 @@ function pickWeightedCategory() {
   return 'Notícias e Atualidades Financeiras Reais';
 }
 
-/**
- * Extrai o primeiro bloco JSON encontrado em um texto, ignorando conversas extras.
- */
 function extractJSON(text) {
   const start = text.indexOf('{');
   const end = text.lastIndexOf('}');
@@ -252,41 +328,7 @@ function extractJSON(text) {
   return text.substring(start, end + 1);
 }
 
-/**
- * Executa uma chamada à API com retentativas e fallback de modelo.
- */
-async function callWithRetry(genAI, modelName, prompt, retries = 5, initialDelay = 2000) {
-  let lastError;
-  const models = [modelName, "gemini-2.0-flash", "gemini-1.5-pro-latest", "gemini-1.5-flash-latest"];
-  let currentDelay = initialDelay;
-
-  for (const currentModel of models) {
-    for (let i = 0; i < retries; i++) {
-      try {
-        console.log(`📡 Tentando chamada com o modelo: ${currentModel} (Tentativa ${i + 1}/${retries})...`);
-        const model = genAI.getGenerativeModel({ model: currentModel });
-        return await model.generateContent(prompt);
-      } catch (error) {
-        lastError = error;
-        
-        // Se o modelo não existe (404), pula para o próximo modelo imediatamente
-        if (error.status === 404) {
-          console.warn(`⚠️ Modelo ${currentModel} não encontrado (404). Pulando para o próximo fallback...`);
-          break;
-        }
-
-        const isTransient = error.status === 503 || error.status === 429 || error.message?.includes('high demand');
-        
-        if (isTransient && i < retries - 1) {
-          console.warn(`⚠️ Erro na tentativa ${i + 1} com ${currentModel}: ${error.status || 'Desconhecido'}. Tentando novamente em ${currentDelay}ms...`);
-          await new Promise(resolve => setTimeout(resolve, currentDelay));
-          currentDelay *= 2;
-          continue;
-        }
-        break;
-      }
-    }
-    console.warn(`🔄 Falha em todas as tentativas com ${currentModel}.`);
-  }
-  throw lastError;
-}
+runAgent().catch(err => {
+    console.error('❌ Erro Fatal no Agente:', err);
+    process.exit(1);
+});

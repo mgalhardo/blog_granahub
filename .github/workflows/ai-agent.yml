@@ -28,6 +28,10 @@ jobs:
       - name: Run AI Agent
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          LOCAL_AI_URL: ${{ secrets.LOCAL_AI_URL }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
         run: node tools/agent.mjs
 
