@@ -11,7 +11,7 @@ jobs:
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - name: Checkout Code
+      - name: Checkou Codte
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -37,7 +37,7 @@ jobs:
           SS_HOST: ${{ secrets.FTP_SERVER }}
           SS_USER: ${{ secrets.FTP_USERNAME }}
           SS_PASS: ${{ secrets.FTP_PASSWORD }}
-        run: |
+      run: |
           lftp -e "
           set sftp:password \"$SS_PASS\";
           set sftp:auto-confirm yes;
