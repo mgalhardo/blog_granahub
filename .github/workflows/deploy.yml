@@ -27,16 +27,20 @@ jobs:
           SEARCH_CONSOLE_SITE_URL: ${{ secrets.SEARCH_CONSOLE_SITE_URL }}
         run: npm run build
 
-      - name: Deploy to Hostinger via FTPS
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 21
-          protocol: ftps
-          local-dir: ./out/
-          server-dir: domains/blog.granahub.com.br/public_html/
-          dangerous-clean-slate: false
-          timeout: 600000
-          log-level: standard
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy to Hostinger via SFTP (port 22)
+        env:
+          SS_HOST: ${{ secrets.FTP_SERVER }}
+          SS_USER: ${{ secrets.FTP_USERNAME }}
+          SS_PASS: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "$SS_USER","$SS_PASS" sftp://$SS_HOST:22 -e "
+          set sftp:auto-confirm yes;
+          set net:timeout 60;
+          set net:max-retries 3;
+          set net:reconnect-interval-base 5;
+          cd domains/blog.granahub.com.br/public_html;
+          mirror -R --delete ./out/ .;
+          bye"
