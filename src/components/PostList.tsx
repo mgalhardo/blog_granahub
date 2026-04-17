@@ -77,7 +77,8 @@ export function PostList({ posts, categories }: PostListProps) {
                 {new Date(post.meta.date).toLocaleDateString('pt-BR', {
                   day: 'numeric',
                   month: 'long',
-                  year: 'numeric'
+                  year: 'numeric',
+                  timeZone: 'UTC'
                 })}
               </time>
               <h2 className="text-xl font-bold text-granahub-text mb-3 line-clamp-2 group-hover:text-granahub-primary transition-colors">

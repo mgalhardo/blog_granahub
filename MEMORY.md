@@ -2,6 +2,8 @@
 
 Este arquivo tem como objetivo registrar configurações, lógicas aplicadas e o histórico de como o projeto funciona, para garantir que qualquer assistência futura conte com o mesmo contexto e não seja perdida após reinicializações.
 
+> **TROUBLESHOOTING DE DEPLOY**: Se estivermos tendo erros de acesso, erro de proxy/FTP ou falhas de publicação na **Hostinger**, _LEIA PRIMEIRO_ o arquivo `kodee_hostinger.md` na raiz do projeto. Ele contém todos os IPs, portas e regras definitivas de SFTP enviados pelo suporte oficial deles.
+
 ## 1. Stack e Arquitetura Principal
 - **Framework**: Next.js (App Router ou Pages Router configurado para exportação estática).
 - **Destino de Hospedagem**: Hostinger (via servidor Apache).

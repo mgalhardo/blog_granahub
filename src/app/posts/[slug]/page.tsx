@@ -56,7 +56,8 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
             {new Date(post.meta.date).toLocaleDateString('pt-BR', {
               day: 'numeric',
               month: 'long',
-              year: 'numeric'
+              year: 'numeric',
+              timeZone: 'UTC'
             })}
           </time>
           <span className="w-1 h-1 rounded-full bg-gray-300" />

@@ -257,7 +257,7 @@ function extractJSON(text) {
  */
 async function callWithRetry(genAI, modelName, prompt, retries = 5, initialDelay = 2000) {
   let lastError;
-  const models = [modelName, "gemini-2.0-flash", "gemini-1.5-flash-latest"];
+  const models = [modelName, "gemini-2.0-flash", "gemini-1.5-pro-latest", "gemini-1.5-flash-latest"];
   let currentDelay = initialDelay;
 
   for (const currentModel of models) {
