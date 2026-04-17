@@ -38,14 +38,13 @@ jobs:
           SS_USER: ${{ secrets.FTP_USERNAME }}
           SS_PASS: ${{ secrets.FTP_PASSWORD }}
         run: |
-                    lfttp -e "
-                  
+          lftp -e "
           set sftp:password \"$SS_PASS\";
           set sftp:auto-confirm yes;
-          set net:timeout 10;
-          set net:max-retries 1;
+          set net:timeout 60;
+          set net:max-retries 3;
           set net:reconnect-interval-base 5;
-                    open -u \"$SS_USER\" sftp://$SS_HOST:65002;
+          open -u \"$SS_USER\" sftp://$SS_HOST:65002;
           cd domains/blog.granahub.com.br/public_html;
           mirror -R --delete ./out/ .;
           bye"
