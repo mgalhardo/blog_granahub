@@ -54,13 +54,14 @@ Sua tarefa é sugerir o MELHOR tema para o post de hoje.
 CATEGORIA SORTEADA: ${categoriaSorteada}
 
 CONTEXTO:
-- Já escrevemos sobre: ${postsExistentes.slice(-10).join(', ')}
+- Já escrevemos sobre: ${postsExistentes.slice(-30).join(', ')}
 - Notícias reais do dia: ${noticias.length > 0 ? noticias.slice(0, 15).join(' | ') : 'Nenhuma notícia recente disponível.'}
 
 REGRAS:
-1. O tema deve ser ÚNICO e não repetir os que já escrevemos.
+1. O tema deve ser ÚNICO e não repetir temas ou abordagens similares aos que já escrevemos recentemente.
 2. Evite generalismos como "O que está bombando nas redes". Seja específico.
 3. Se a categoria for Notícias, tente conectar uma das notícias reais ao contexto de finanças pessoais.
+    - IMPORTANTE: Se houver várias notícias sobre o mesmo assunto (ex: Petróleo), varie a abordagem ou escolha outra notícia se já falamos disso nos últimos 7 dias.
 4. Se for Economia Doméstica ou Investimentos, foque em dicas práticas ou educacionais.
 5. Retorne APENAS o objeto JSON, sem texto introdutório ou explicações.
    Use categorias amigáveis como: "Economia Doméstica", "Investimentos", "GranaHub", "Planejamento", "Imposto de Renda".
@@ -96,9 +97,10 @@ TEMA DO POST: ${temaEscolhido}
     "description": "Uma breve descrição de 2 linhas para os metadados (SEO)",
     "slug": "url-amigavel-do-post (NÃO inclua anos no slug, use apenas o título limpo em minúsculas)",
     "category": "A categoria definida no passo anterior",
-    "searchTermForImage": "uma palavra chave em INGLÊS para imagem de capa",
+    "searchTermForImage": "um termo de busca em INGLÊS para imagem de capa. Seja ESPECÍFICO e VARIADO. (Ex: se o tema for 'Inflação', use 'piggy bank breaking' ou 'expensive groceries' em vez de apenas 'money')",
     "content": "O post completo em Markdown. Use ## e ###. Inclua listas impactantes e um parágrafo final de reflexão/conselho."
   }
+  6. IMPORTANTE: No searchTermForImage, evite termos genéricos como "oil" ou "gas station" se já falamos disso. Tente capturar o SENTIMENTO do post (ex: "military helicopter" para guerra, "shipping container" para comércio).
   6. IMPORTANTE: O slug deve ser sempre atemporal. NÃO inclua anos (como 2024, 2025, 2026) no slug, pois o post pode ser relevante por anos. Use apenas palavras-chave do título.
   7. A categoria é OBRIGATÓRIA e deve ser uma das: "Economia Doméstica", "Investimentos", "Planejamento", "Imposto de Renda", "GranaHub"
   8. FORMATO JSON: Certifique-se de que todas as quebras de linha no campo "content" sejam escapadas como '\\n'. Jamais inclua quebras de linha reais (Enter) dentro das aspas do JSON.
@@ -130,18 +132,38 @@ No final do post (último parágrafo), inclua o CTA:
     if (process.env.PEXELS_API_KEY) {
        try {
          console.log('📸 Buscando imagem no Pexels...');
-         const pexelsRes = await fetch(`https://api.pexels.com/v1/search?query=${postData.searchTermForImage}&per_page=1`, {
+         const usedImages = getUsedImages();
+         const pexelsRes = await fetch(`https://api.pexels.com/v1/search?query=${postData.searchTermForImage}&per_page=10`, {
            headers: { Authorization: process.env.PEXELS_API_KEY }
          });
          const pexelsData = await pexelsRes.json();
+         
          if (pexelsData.photos && pexelsData.photos.length > 0) {
-           coverImage = pexelsData.photos[0].src.large2x;
+           // Encontrar a primeira imagem que ainda não foi usada
+           const unusedPhoto = pexelsData.photos.find(photo => !usedImages.includes(photo.src.large2x));
+           if (unusedPhoto) {
+             coverImage = unusedPhoto.src.large2x;
+             console.log('✨ Imagem única encontrada!');
+           } else {
+             coverImage = pexelsData.photos[0].src.large2x;
+             console.log('⚠️ Nenhuma imagem inédita nas primeiras 10, usando a melhor disponível.');
+           }
          }
        } catch (imgError) {
          console.warn('⚠️ Erro ao buscar imagem, usando fallback.');
        }
     } 
-    
+
+    function getUsedImages() {
+      const allPosts = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
+      const images = [];
+      allPosts.forEach(file => {
+        const content = fs.readFileSync(path.join(postsDir, file), 'utf8');
+        const match = content.match(/coverImage:\s*"(.*?)"/);
+        if (match && match[1]) images.push(match[1]);
+      });
+      return images;
+    }    
     const dataAtual = new Date().toISOString().split('T')[0];
 
     const finalMarkdown = `---
