@@ -2,7 +2,7 @@
 title: "Declaração de Aluguel por Temporada no Imposto de Renda: Dicas e Regras"
 date: "2026-04-19"
 description: "Aprenda a declarar aluguel por temporada no Imposto de Renda e evite erros comuns. Entenda as regras e dicas para uma declaração precisa."
-coverImage: "https://images.pexels.com/photos/6863245/pexels-photo-6863245.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+coverImage: "/covers/aluguel-temporada.png"
 category: "Imposto de Renda"
 ---
 

@@ -3,7 +3,7 @@ category: "Imposto de Renda"
 title: "Passo a passo para declarar seu primeiro Imposto de Renda"
 date: "2026-04-14"
 description: "O Leão te assusta? Não se preocupe. Preparamos um guia simplificado para quem vai declarar o Imposto de Renda pela primeira vez em 2026."
-coverImage: "https://images.pexels.com/photos/6863246/pexels-photo-6863246.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+coverImage: "/covers/primeiro-ir.png"
 ---
 
 A primeira declaração de Imposto de Renda a gente nunca esquece. Bate o medo de cair na malha fina, a dúvida de quais documentos são necessários e a confusão com o software da Receita Federal. Mas calma: declarar é muito mais sobre **organização** do que sobre matemática complexa.

@@ -2,7 +2,7 @@
 title: "Reabertura do Estreito de Ormuz: Impacto no Preço do Petróleo e nos Combustíveis"
 date: "2026-04-17"
 description: "Entenda como a reabertura do Estreito de Ormuz pode afetar o preço do petróleo e os combustíveis, e como isso pode impactar o seu orçamento."
-coverImage: "https://images.pexels.com/photos/4744707/pexels-photo-4744707.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+coverImage: "/covers/estreito-ormuz.png"
 category: "Economia Doméstica"
 ---
 
