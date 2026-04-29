@@ -30,6 +30,7 @@ Foi adaptado um arquivo `.htaccess` inserido na pasta `public` do projeto Next.j
 - **Refinamento de Títulos**: Observou-se que o robô pode gerar títulos excessivamente sensacionalistas (estilo "clickbait"). O fluxo recomendado é revisar o título no Pull Request e ajustar para um tom mais prático e direto, condizente com a voz da marca GranaHub, antes de realizar o Merge.
 - **Slugs Atemporais**: O robô está proibido de incluir anos (ex: 2024, 2025) nos slugs dos posts para garantir que os links permaneçam válidos e relevantes por longo prazo sem parecerem datados.
 - **Categorias Restritas**: O robô deve usar apenas categorias pré-aprovadas: "Economia Doméstica", "Investimentos", "Planejamento", "Imposto de Renda" ou "GranaHub".
+- **Política de Imagens IA**: Foi definido que imagens geradas por IA (via Antigravity) são preferíveis às de bancos de imagem (Pexels/Unsplash) por serem mais exclusivas e evitarem textos em inglês. Atualmente, a geração de imagens IA é feita manualmente pelo assistente sob demanda, enquanto o robô automático utiliza Pexels como fallback de custo zero.
 
 ## 6. Política de Redundância de IA (Triple Failover)
 Para garantir 100% de disponibilidade na geração de posts, o robô (`tools/agent.mjs`) utiliza três camadas de inteligência:
@@ -63,4 +64,8 @@ Ao realizar qualquer mudança arquitetural, adicionar integrações de Banco de 
 - **Secrets GitHub**: `SFTP_HOST`, `SFTP_USER`, `SFTP_PASS` (configurados em Settings → Secrets → Actions)
 - **Referência completa**: Ver arquivo `kodee_hostinger.md` na raiz do projeto com todas as informações do suporte Hostinger.
 - **Sitemap**: Gerado dinamicamente em `public/sitemap.xml` pelo script `tools/sitemap-generator.mjs` durante o processo de build. Inclui a página inicial e todos os posts.
+
+## 10. Logs e Diagnósticos
+- **Log do Agente**: O script `tools/agent.mjs` possui logs detalhados para cada fase: Brainstorming, Geração de Conteúdo, Busca de Imagem e Notificação.
+- **Debug de Workflow**: O workflow `ai-agent.yml` envia o link direto para o log de erro no Telegram caso a execução falhe, facilitando a identificação de estouro de cota de IA ou problemas de Git.
 
