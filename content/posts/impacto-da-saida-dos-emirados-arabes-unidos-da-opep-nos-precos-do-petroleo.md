@@ -1,5 +1,5 @@
 ---
-title: "O Impacto da Saída dos Emirados Árabes Unidos da Opep nos Preços do Petróleo"
+title: "Saída dos Emirados Árabes Unidos da Opep: O que isso significa para o seu orçamento familiar"
 date: "2026-04-29"
 description: "A saída dos Emirados Árabes Unidos da Opep pode afetar os preços do petróleo e o orçamento familiar. Entenda como."
 coverImage: "/covers/opec-uae.png"
