@@ -33,8 +33,8 @@ jobs:
           CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
           CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
-          WHATSAPP_API_KEY: ${{ secrets.WHATSAPP_API_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: node tools/agent.mjs
 
       - name: Commit and Push
@@ -51,11 +51,15 @@ jobs:
           # Tenta o push com retry simples
           git push origin main || (sleep 5 && git push origin main)
 
-      - name: Notify WhatsApp on Failure
+      - name: Notify Telegram on Failure
         if: failure()
         run: |
           node -e "
             const message = '*❌ Erro de Publicação no GranaHub!*\\n\\nOcorreu um erro ao tentar salvar o novo post no GitHub. Por favor, verifique os logs da Action \"Daily AI Post Generator\".';
-            const url = 'https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=' + encodeURIComponent(message) + '&apikey=${{ secrets.WHATSAPP_API_KEY }}';
-            fetch(url).then(() => console.log('Aviso de erro enviado')).catch(e => console.error(e));
+            const url = 'https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage';
+            fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chat_id: '${{ secrets.TELEGRAM_CHAT_ID }}', text: message, parse_mode: 'Markdown' })
+            }).then(() => console.log('Aviso de erro enviado')).catch(e => console.error(e));
           "

@@ -44,20 +44,28 @@ jobs:
           mirror -R --delete --verbose ./out/ /home/u624347113/domains/blog.granahub.com.br/public_html;
           bye"
 
-      - name: Notify WhatsApp on Success
+      - name: Notify Telegram on Success
         if: success()
         run: |
           node -e "
             const message = '*✅ Blog GranaHub Atualizado!*\\n\\nA nova matéria já está no ar: https://blog.granahub.com.br/';
-            const url = 'https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=' + encodeURIComponent(message) + '&apikey=${{ secrets.WHATSAPP_API_KEY }}';
-            fetch(url).then(() => console.log('Sucesso notificado')).catch(e => console.error(e));
+            const url = 'https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage';
+            fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chat_id: '${{ secrets.TELEGRAM_CHAT_ID }}', text: message, parse_mode: 'Markdown' })
+            }).then(() => console.log('Sucesso notificado')).catch(e => console.error(e));
           "
 
-      - name: Notify WhatsApp on Failure
+      - name: Notify Telegram on Failure
         if: failure()
         run: |
           node -e "
             const message = '*❌ Falha no Deploy do GranaHub!*\\n\\nOcorreu um erro ao subir os arquivos para a Hostinger. O site pode estar desatualizado.';
-            const url = 'https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=' + encodeURIComponent(message) + '&apikey=${{ secrets.WHATSAPP_API_KEY }}';
-            fetch(url).then(() => console.log('Erro notificado')).catch(e => console.error(e));
+            const url = 'https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage';
+            fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chat_id: '${{ secrets.TELEGRAM_CHAT_ID }}', text: message, parse_mode: 'Markdown' })
+            }).then(() => console.log('Erro notificado')).catch(e => console.error(e));
           "

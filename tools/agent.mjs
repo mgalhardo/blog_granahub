@@ -206,11 +206,11 @@ ${lowerPart}`;
       console.log('📝 sugestoes.md atualizado.');
     }
 
-    // Notificação WhatsApp
-    if (process.env.WHATSAPP_PHONE && process.env.WHATSAPP_API_KEY) {
-      await sendWhatsAppNotification(postData.title, postData.slug);
+    // Notificação Telegram
+    if (process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHAT_ID) {
+      await sendTelegramNotification(postData.title, postData.slug);
     } else {
-      console.log('⚠️ WHATSAPP_PHONE ou WHATSAPP_API_KEY não configurados. Pulando notificação.');
+      console.log('⚠️ TELEGRAM_TOKEN ou TELEGRAM_CHAT_ID não configurados. Pulando notificação.');
     }
 
     console.log('🎉 Tudo pronto! O post foi criado e a notificação enviada.');
@@ -222,28 +222,37 @@ ${lowerPart}`;
 }
 
 /**
- * Envia notificação via WhatsApp usando CallMeBot (ou similar)
+ * Envia notificação via Telegram
  */
-async function sendWhatsAppNotification(title, slug) {
-  const phone = process.env.WHATSAPP_PHONE;
-  const apikey = process.env.WHATSAPP_API_KEY;
+async function sendTelegramNotification(title, slug) {
+  const token = process.env.TELEGRAM_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
   const link = `https://blog.granahub.com.br/posts/${slug}/`;
   
   const message = `*Novo Post no GranaHub!* 🚀\n\n*Título:* ${title}\n\n*Link:* ${link}\n\nSe não gostou, pode apagar o arquivo no GitHub e rodar o agente novamente.`;
   
-  console.log('📱 Enviando notificação WhatsApp...');
+  console.log('📱 Enviando notificação Telegram...');
   
   try {
-    const url = `https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${encodeURIComponent(message)}&apikey=${apikey}`;
-    const res = await fetch(url);
+    const url = `https://api.telegram.org/bot${token}/sendMessage`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message,
+        parse_mode: 'Markdown'
+      })
+    });
     
     if (res.ok) {
-      console.log('✅ Notificação enviada com sucesso!');
+      console.log('✅ Notificação Telegram enviada com sucesso!');
     } else {
-      console.error(`❌ Falha ao enviar WhatsApp: ${res.status} ${res.statusText}`);
+      const errorData = await res.json();
+      console.error('❌ Falha ao enviar Telegram:', errorData);
     }
   } catch (err) {
-    console.error('❌ Erro na API de WhatsApp:', err);
+    console.error('❌ Erro na API do Telegram:', err);
   }
 }
 
