@@ -113,7 +113,16 @@ No final do post (último parágrafo), inclua o CTA:
 
   try {
     const jsonString = await generateAIContent(prompt);
-    const postData = JSON.parse(jsonString);
+    let postData;
+    try {
+      postData = JSON.parse(jsonString);
+    } catch (parseError) {
+      console.error('❌ Erro ao processar JSON retornado pela IA:');
+      console.error('--- RAW CONTENT START ---');
+      console.error(jsonString);
+      console.error('--- RAW CONTENT END ---');
+      throw parseError;
+    }
 
     console.log(`✅ Conteúdo gerado! Título: ${postData.title}`);
 
@@ -197,11 +206,44 @@ ${lowerPart}`;
       console.log('📝 sugestoes.md atualizado.');
     }
 
-    console.log('🎉 Tudo pronto! Pull Request no GitHub será disparado...');
+    // Notificação WhatsApp
+    if (process.env.WHATSAPP_PHONE && process.env.WHATSAPP_API_KEY) {
+      await sendWhatsAppNotification(postData.title, postData.slug);
+    } else {
+      console.log('⚠️ WHATSAPP_PHONE ou WHATSAPP_API_KEY não configurados. Pulando notificação.');
+    }
+
+    console.log('🎉 Tudo pronto! O post foi criado e a notificação enviada.');
 
   } catch (error) {
     console.error('❌ Erro durante o processo do Agente:', error);
     process.exit(1);
+  }
+}
+
+/**
+ * Envia notificação via WhatsApp usando CallMeBot (ou similar)
+ */
+async function sendWhatsAppNotification(title, slug) {
+  const phone = process.env.WHATSAPP_PHONE;
+  const apikey = process.env.WHATSAPP_API_KEY;
+  const link = `https://blog.granahub.com.br/posts/${slug}/`;
+  
+  const message = `*Novo Post no GranaHub!* 🚀\n\n*Título:* ${title}\n\n*Link:* ${link}\n\nSe não gostou, pode apagar o arquivo no GitHub e rodar o agente novamente.`;
+  
+  console.log('📱 Enviando notificação WhatsApp...');
+  
+  try {
+    const url = `https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${encodeURIComponent(message)}&apikey=${apikey}`;
+    const res = await fetch(url);
+    
+    if (res.ok) {
+      console.log('✅ Notificação enviada com sucesso!');
+    } else {
+      console.error(`❌ Falha ao enviar WhatsApp: ${res.status} ${res.statusText}`);
+    }
+  } catch (err) {
+    console.error('❌ Erro na API de WhatsApp:', err);
   }
 }
 
@@ -351,11 +393,18 @@ function extractJSON(text) {
   
   let jsonString = text.substring(start, end + 1);
   
-  // Heurística de segurança: substituir quebras de linha reais dentro de aspas por \n literal
-  // Isso evita o erro "Bad control character in string literal" no JSON.parse
-  return jsonString.replace(/"([^"]*)"/g, (match, p1) => {
+  // Limpeza de caracteres de controle e escapes inválidos
+  // 1. Substituir quebras de linha reais dentro de aspas por \n literal
+  jsonString = jsonString.replace(/"([^"]*)"/g, (match, p1) => {
     return `"${p1.replace(/\n/g, '\\n').replace(/\r/g, '\\r')}"`;
   });
+
+  // 2. Tentar limpar escapes de Markdown que quebram o JSON (ex: \*, \_, \!)
+  // Procura por \ seguido de um caractere que NÃO é um dos escapes válidos do JSON (bfnrt"\/u)
+  // E substitui por \\caractere
+  jsonString = jsonString.replace(/\\([^"\\\/bfnrtu])/g, '\\\\$1');
+
+  return jsonString;
 }
 
 runAgent().catch(err => {

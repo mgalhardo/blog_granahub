@@ -1,7 +1,7 @@
 name: "Daily AI Post Generator"
 on:
   schedule:
-    - cron: '0 10 * * *' # Roda todo dia às 10:00 UTC
+    - cron: '0 10 * * *' # Roda todo dia às 10:00 UTC (07:00 AM no Brasil)
   workflow_dispatch: # Permite rodar manualmente no botão do GitHub
 
 permissions:
@@ -33,15 +33,29 @@ jobs:
           CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
           CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
+          WHATSAPP_API_KEY: ${{ secrets.WHATSAPP_API_KEY }}
         run: node tools/agent.mjs
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "🤖 Novo Post sugerido pelo Robô GranaHub"
-          title: "Novo Post de IA Disponível para Aprovação"
-          body: |
-            O robô gerou um novo post baseado em tendências financeiras ou nas sugestões!
-            Por favor, revise o markdown gerado e se gostar, clique em "Merge" para publicar no ar.
-          branch: "ai-new-post-${{ github.run_id }}"
+      - name: Commit and Push
+        id: push_step
+        run: |
+          git config --global user.name "GranaHub Robot"
+          git config --global user.email "robot@granahub.com.br"
+          git add .
+          git commit -m "🤖 Novo Post Automático: $(date +'%Y-%m-%d')" || exit 0
+          
+          # Tenta puxar mudanças recentes para evitar conflitos
+          git pull --rebase origin main
+          
+          # Tenta o push com retry simples
+          git push origin main || (sleep 5 && git push origin main)
+
+      - name: Notify WhatsApp on Failure
+        if: failure()
+        run: |
+          node -e "
+            const message = '*❌ Erro de Publicação no GranaHub!*\\n\\nOcorreu um erro ao tentar salvar o novo post no GitHub. Por favor, verifique os logs da Action \"Daily AI Post Generator\".';
+            const url = 'https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=' + encodeURIComponent(message) + '&apikey=${{ secrets.WHATSAPP_API_KEY }}';
+            fetch(url).then(() => console.log('Aviso de erro enviado')).catch(e => console.error(e));
+          "

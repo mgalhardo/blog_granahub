@@ -22,8 +22,8 @@ Foi adaptado um arquivo `.htaccess` inserido na pasta `public` do projeto Next.j
 
 ## 4. Deploy Automatizado (GitHub Actions)
 - O processo de *Deploy* ocorre automaticamente ao disparar commits na branch `main`.
-- Um *Agent* (agente de IA auxiliar) tem uma pipeline programada isolada que pode gerar novos artigos, fazer commit e atualizar o blog por conta própria.
-- Esteja a postos após um pull do Agente de IA para checar se ele adicionou imagens Unsplash com caminhos válidos (caminhos que retornem 200 OK sem cair e sem erro 404). As imagens não aparecerem e sumirem nos posts é sinal de links corrompidos e gerados acidentalmente pelo Agent (alucinação) e requer substituição pelo método de edição no Front-Matter `coverImage`.
+- Um *Agent* (agente de IA auxiliar) tem uma pipeline programada (`ai-agent.yml`) que gera novos artigos diariamente às 10:00 UTC.
+- **Novo Fluxo (Abril 2026)**: O agente agora faz commit direto na `main` (publicação automática) e envia uma notificação com o link do post para o WhatsApp do administrador. Se o conteúdo não for do agrado, o administrador pode deletar o arquivo Markdown e rodar o agente novamente.
 
 ## 5. Robô de IA e Gerenciamento de Imagens (Agente)
 - **Integração Pexels**: O robô (`tools/agent.mjs`) utiliza a `PEXELS_API_KEY` (configurada nos Secrets do GitHub) para buscar imagens de capa dinâmicas e contextuais.
