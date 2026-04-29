@@ -43,7 +43,14 @@ jobs:
           git config --global user.name "GranaHub Robot"
           git config --global user.email "robot@granahub.com.br"
           git add .
-          git commit -m "🤖 Novo Post Automático: $(date +'%Y-%m-%d')" || exit 0
+          
+          # Verifica se há algo para commitar
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "⚠️ Nenhum novo post foi detectado. Encerrando sem erro."
+            exit 0
+          fi
+
+          git commit -m "🤖 Novo Post Automático: $(date +'%Y-%m-%d')"
           
           # Tenta puxar mudanças recentes para evitar conflitos
           git pull --rebase origin main
@@ -55,7 +62,7 @@ jobs:
         if: failure()
         run: |
           node -e "
-            const message = '*❌ Erro de Publicação no GranaHub!*\\n\\nOcorreu um erro ao tentar salvar o novo post no GitHub. Por favor, verifique os logs da Action \"Daily AI Post Generator\".';
+            const message = '*❌ Erro na Automação do GranaHub!*\\n\\nOcorreu um erro no workflow \"Daily AI Post Generator\".\\n\\n*Possíveis causas:*\\n- Falha na geração da IA (limites de cota)\\n- Problemas com as chaves de API\\n- Erro de sincronização no GitHub\\n\\nVerifique os logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const url = 'https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage';
             fetch(url, {
               method: 'POST',

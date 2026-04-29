@@ -21,9 +21,8 @@ Foi adaptado um arquivo `.htaccess` inserido na pasta `public` do projeto Next.j
 - Processa roteamentos diretos fallback caso algum `.html` não seja encontrado.
 
 ## 4. Deploy Automatizado (GitHub Actions)
-- O processo de *Deploy* ocorre automaticamente ao disparar commits na branch `main`.
-- Um *Agent* (agente de IA auxiliar) tem uma pipeline programada (`ai-agent.yml`) que gera novos artigos diariamente às 10:00 UTC.
-- **Novo Fluxo (Abril 2026)**: O agente agora faz commit direto na `main` (publicação automática) e envia uma notificação com o link do post para o WhatsApp do administrador. Se o conteúdo não for do agrado, o administrador pode deletar o arquivo Markdown e rodar o agente novamente.
+- **Novo Fluxo (Abril 2026)**: O agente agora faz commit direto na `main` (publicação automática) e envia uma notificação com o link do post para o Telegram do administrador. Se o conteúdo não for do agrado, o administrador pode deletar o arquivo Markdown e rodar o agente novamente.
+- **Resiliência de Workflow**: O workflow `ai-agent.yml` foi aprimorado para detectar se o post foi realmente criado antes de tentar o commit, evitando commits vazios, e agora envia links diretos para os logs em caso de falha.
 
 ## 5. Robô de IA e Gerenciamento de Imagens (Agente)
 - **Integração Pexels**: O robô (`tools/agent.mjs`) utiliza a `PEXELS_API_KEY` (configurada nos Secrets do GitHub) para buscar imagens de capa dinâmicas e contextuais.

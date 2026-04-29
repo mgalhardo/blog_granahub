@@ -47,6 +47,7 @@ async function runAgent() {
     const categoriaSorteada = pickWeightedCategory();
     
     console.log(`🎲 Categoria sorteada: ${categoriaSorteada}`);
+    console.log(`🗞️  Notícias coletadas: ${noticias.length} itens`);
 
     const brainstormPrompt = `Aja como um estrategista de conteúdo para o blog "GranaHub" (WhatsApp Financeiro).
 Sua tarefa é sugerir o MELHOR tema para o post de hoje.
@@ -140,7 +141,7 @@ No final do post (último parágrafo), inclua o CTA:
     
     if (process.env.PEXELS_API_KEY) {
        try {
-         console.log('📸 Buscando imagem no Pexels...');
+         console.log(`📸 Buscando imagem no Pexels para termo: "${postData.searchTermForImage}"...`);
          const usedImages = getUsedImages();
          const pexelsRes = await fetch(`https://api.pexels.com/v1/search?query=${postData.searchTermForImage}&per_page=10`, {
            headers: { Authorization: process.env.PEXELS_API_KEY }
@@ -210,7 +211,7 @@ ${lowerPart}`;
     if (process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHAT_ID) {
       await sendTelegramNotification(postData.title, postData.slug);
     } else {
-      console.log('⚠️ TELEGRAM_TOKEN ou TELEGRAM_CHAT_ID não configurados. Pulando notificação.');
+      console.warn('⚠️ TELEGRAM_TOKEN ou TELEGRAM_CHAT_ID não configurados no ambiente. Pulando notificação.');
     }
 
     console.log('🎉 Tudo pronto! O post foi criado e a notificação enviada.');
