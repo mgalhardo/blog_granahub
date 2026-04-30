@@ -214,6 +214,13 @@ ${lowerPart}`;
       console.warn('⚠️ TELEGRAM_TOKEN ou TELEGRAM_CHAT_ID não configurados no ambiente. Pulando notificação.');
     }
 
+    // Postagem no Threads
+    if (process.env.THREADS_ACCESS_TOKEN && process.env.THREADS_USER_ID) {
+      await sendThreadsPost(postData.title, postData.description, postData.slug, coverImage);
+    } else {
+      console.warn('⚠️ THREADS_ACCESS_TOKEN ou THREADS_USER_ID não configurados. Pulando postagem no Threads.');
+    }
+
     console.log('🎉 Tudo pronto! O post foi criado e a notificação enviada.');
 
   } catch (error) {
@@ -254,6 +261,68 @@ async function sendTelegramNotification(title, slug) {
     }
   } catch (err) {
     console.error('❌ Erro na API do Telegram:', err);
+  }
+}
+
+/**
+ * Realiza postagem no Threads (Instagram Meta)
+ */
+async function sendThreadsPost(title, description, slug, imageUrl) {
+  const token = process.env.THREADS_ACCESS_TOKEN;
+  const userId = process.env.THREADS_USER_ID;
+  const link = `https://blog.granahub.com.br/posts/${slug}/`;
+  
+  // Criar o texto do post
+  const text = `🚀 Novo no GranaHub: ${title}\n\n${description}\n\nLeia mais: ${link}`;
+
+  console.log('🧵 Iniciando postagem no Threads...');
+
+  try {
+    // 1. Criar Container de Mídia
+    const containerUrl = `https://graph.threads.net/v1.0/${userId}/threads`;
+    const containerRes = await fetch(containerUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        media_type: 'IMAGE',
+        image_url: imageUrl,
+        text: text,
+        access_token: token
+      })
+    });
+
+    const containerData = await containerRes.json();
+    if (!containerRes.ok) {
+      throw new Error(`Falha ao criar container no Threads: ${JSON.stringify(containerData)}`);
+    }
+
+    const creationId = containerData.id;
+    console.log(`📦 Container criado (ID: ${creationId}). Aguardando processamento...`);
+
+    // 2. Aguardar o processamento (A Meta recomenda ~30s para imagens)
+    // Vamos fazer um sleep simples
+    await new Promise(resolve => setTimeout(resolve, 30000));
+
+    // 3. Publicar o Container
+    const publishUrl = `https://graph.threads.net/v1.0/${userId}/threads_publish`;
+    const publishRes = await fetch(publishUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        creation_id: creationId,
+        access_token: token
+      })
+    });
+
+    const publishData = await publishRes.json();
+    if (publishRes.ok) {
+      console.log('✅ Post publicado no Threads com sucesso!');
+    } else {
+      console.error('❌ Falha ao publicar no Threads:', publishData);
+    }
+
+  } catch (err) {
+    console.error('❌ Erro na API do Threads:', err);
   }
 }
 

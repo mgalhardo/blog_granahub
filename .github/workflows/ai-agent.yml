@@ -35,6 +35,8 @@ jobs:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
         run: node tools/agent.mjs
 
       - name: Commit and Push
@@ -44,25 +46,63 @@ jobs:
           git config --global user.email "robot@granahub.com.br"
           git add .
           
-          # Verifica se há algo para commitar
           if [ -z "$(git status --porcelain)" ]; then
             echo "⚠️ Nenhum novo post foi detectado. Encerrando sem erro."
+            echo "HAS_CHANGES=false" >> $GITHUB_OUTPUT
             exit 0
           fi
 
           git commit -m "🤖 Novo Post Automático: $(date +'%Y-%m-%d')"
+          echo "HAS_CHANGES=true" >> $GITHUB_OUTPUT
           
-          # Tenta puxar mudanças recentes para evitar conflitos
           git pull --rebase origin main
-          
-          # Tenta o push com retry simples
           git push origin main || (sleep 5 && git push origin main)
+
+      # --- INÍCIO DO DEPLOY AUTOMÁTICO ---
+      - name: Build Static Site
+        if: steps.push_step.outputs.HAS_CHANGES == 'true'
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          SEARCH_CONSOLE_SITE_URL: ${{ secrets.SEARCH_CONSOLE_SITE_URL }}
+        run: npm run build
+
+      - name: Install lftp
+        if: steps.push_step.outputs.HAS_CHANGES == 'true'
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy to Hostinger via SFTP
+        if: steps.push_step.outputs.HAS_CHANGES == 'true'
+        env:
+          SFTP_HOST: ${{ secrets.FTP_SERVER }}
+          SFTP_USER: ${{ secrets.FTP_USERNAME }}
+          SFTP_PASS: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "$SFTP_USER","$SFTP_PASS" sftp://$SFTP_HOST:65002 -e "
+          set sftp:auto-confirm yes;
+          set net:timeout 60;
+          mirror -R --delete --verbose ./out/ /home/u624347113/domains/blog.granahub.com.br/public_html;
+          bye"
+
+      - name: Notify Telegram on Success
+        if: success() && steps.push_step.outputs.HAS_CHANGES == 'true'
+        run: |
+          node -e "
+            const message = '*✅ GranaHub Publicado!*\\n\\nA nova matéria já está no ar e o site foi atualizado.';
+            const url = 'https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage';
+            fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chat_id: '${{ secrets.TELEGRAM_CHAT_ID }}', text: message, parse_mode: 'Markdown' })
+            }).then(() => console.log('Sucesso notificado')).catch(e => console.error(e));
+          "
+      # --- FIM DO DEPLOY AUTOMÁTICO ---
 
       - name: Notify Telegram on Failure
         if: failure()
         run: |
           node -e "
-            const message = '*❌ Erro na Automação do GranaHub!*\\n\\nOcorreu um erro no workflow \"Daily AI Post Generator\".\\n\\n*Possíveis causas:*\\n- Falha na geração da IA (limites de cota)\\n- Problemas com as chaves de API\\n- Erro de sincronização no GitHub\\n\\nVerifique os logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}';
+            const message = '*❌ Erro na Automação do GranaHub!*\\n\\nOcorreu um erro no workflow ou no deploy.\\n\\nVerifique os logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const url = 'https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage';
             fetch(url, {
               method: 'POST',
