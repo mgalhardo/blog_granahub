@@ -2,7 +2,7 @@
 title: "Renegociação de Dívidas: O Novo Desenrola Brasil e Seu Impacto Financeiro"
 date: "2026-05-04"
 description: "Entenda como o programa de renegociação de dívidas do governo pode afetar sua saúde financeira e planejamento econômico."
-coverImage: "https://images.pexels.com/photos/8919505/pexels-photo-8919505.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+coverImage: "/covers/desenrola-brasil.png"
 category: "Investimentos"
 ---
 
