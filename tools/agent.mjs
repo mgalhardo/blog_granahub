@@ -470,11 +470,15 @@ async function callNineRouter(prompt) {
     })
   });
 
+  const text = await res.text();
+  
   if (!res.ok) {
-    const errText = await res.text().catch(() => '');
-    throw new Error(`9Router API error: ${res.status} ${errText}`);
+    throw new Error(`9Router API error: ${res.status} ${text}`);
   }
-  const data = await res.json();
+
+  // Remove any trailing 'data: [DONE]' or invalid suffixes appended by the router
+  const cleanText = text.replace(/data:\s*\[DONE\]\s*$/, '').trim();
+  const data = JSON.parse(cleanText);
   return data.choices[0].message.content;
 }
 
