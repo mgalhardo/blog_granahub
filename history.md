@@ -1,5 +1,17 @@
 # History
 
+## 2026-08-18
+
+### Integração do 9Router e Ajustes de Build
+- **Mudança**: Integração do 9Router como 4º provedor de failover na geração diária (`agent.mjs` e `ai-agent.yml`).
+- **Correção**: Implementada limpeza de sufixo `data: [DONE]` no retorno do 9Router e atualização dos modelos Gemini depreciados.
+- **Correção**: Renomeado post com slug contendo acento (`investir-renda-fixa-orçamento-familiar.md` → `investir-renda-fixa-orcamento-familiar.md`) que quebrava o build do Next.js.
+- **Deploy**: Realizado deploy manual com sucesso após correções. Os posts de ontem e de hoje estão no ar.
+
+### [PENDENTE] Ativação de dados reais no Dashboard de Analytics
+- **Status**: **Aguardando ação do usuário**.
+- **Tarefa**: Usuário criará a Google Service Account e cadastrará os segredos no GitHub (`GOOGLE_SERVICE_ACCOUNT_JSON`, `GA4_PROPERTY_ID`, e `SEARCH_CONSOLE_SITE_URL` como `sc-domain:granahub.com.br`) para habilitar dados de acesso reais no painel `/gh-secret-stats-2026/`.
+
 ## 2026-04-16
 
 ### Correções diversas
