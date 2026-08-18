@@ -96,7 +96,7 @@ TEMA DO POST: ${temaEscolhido}
   {
     "title": "Um título chamativo e focado em SEO (evite títulos genéricos)",
     "description": "Uma breve descrição de 2 linhas para os metadados (SEO)",
-    "slug": "url-amigavel-do-post (NÃO inclua anos no slug, use apenas o título limpo em minúsculas)",
+    "slug": "url-amigavel-do-post (REGRAS ABSOLUTAS: 1) Use APENAS letras minúsculas sem acento, números e hífens. 2) NÃO inclua anos. 3) Substitua ç por c, ã por a, é por e, á por a, ó por o, ê por e, etc. Ex: 'orçamento' → 'orcamento')",
     "category": "A categoria definida no passo anterior",
     "searchTermForImage": "um termo de busca em INGLÊS para imagem de capa. Seja ESPECÍFICO e VARIADO. (Ex: se o tema for 'Inflação', use 'piggy bank breaking' ou 'expensive groceries' em vez de apenas 'money')",
     "content": "O post completo em Markdown. Use ## e ###. Inclua listas impactantes e um parágrafo final de reflexão/conselho."
@@ -186,6 +186,15 @@ category: "${postData.category || process.env.POST_CATEGORY || 'Finanças'}"
 
 ${postData.content}
 `;
+
+    // Sanitiza o slug para garantir que não contenha acentos ou caracteres especiais
+    // que quebrariam o build do Next.js (ex: ç → c, ã → a, é → e)
+    postData.slug = postData.slug
+      .normalize('NFD')                    // Decompõe caracteres acentuados (ex: ç → c + cedilla)
+      .replace(/[\u0300-\u036f]/g, '')     // Remove os diacríticos (cedilha, til, acento, etc.)
+      .replace(/[^a-z0-9-]/g, '-')        // Substitui qualquer caractere não alfanumérico por hífen
+      .replace(/-{2,}/g, '-')             // Remove hifens duplicados
+      .replace(/^-|-$/g, '');             // Remove hifens no início/fim
 
     const filepath = path.join(rootDir, 'content', 'posts', `${postData.slug}.md`);
     fs.writeFileSync(filepath, finalMarkdown, 'utf8');
@@ -374,7 +383,7 @@ async function generateAIContent(prompt) {
 
 async function callGemini(prompt) {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const models = ["gemini-2.0-flash", "gemini-1.5-pro-latest", "gemini-1.5-flash-latest"];
+  const models = ["gemini-2.5-flash", "gemini-2.0-flash-lite", "gemini-1.5-flash-latest"];
   
   for (const modelName of models) {
     try {
