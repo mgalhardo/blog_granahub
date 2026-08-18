@@ -455,7 +455,7 @@ async function callLocalOllama(prompt) {
 async function callNineRouter(prompt) {
   // 9Router é um proxy OpenAI-compatível self-hosted com 40+ provedores internos
   const url = `${process.env.NINEROUTER_URL}/v1/chat/completions`;
-  const model = process.env.NINEROUTER_MODEL || 'kr/gemini-2.5-flash';
+  const model = process.env.NINEROUTER_MODEL || 'dokploy';
   console.log(`   └─ Usando modelo: ${model}`);
   const res = await fetch(url, {
     method: 'POST',
