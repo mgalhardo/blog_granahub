@@ -32,12 +32,14 @@ Foi adaptado um arquivo `.htaccess` inserido na pasta `public` do projeto Next.j
 - **Categorias Restritas**: O robô deve usar apenas categorias pré-aprovadas: "Economia Doméstica", "Investimentos", "Planejamento", "Imposto de Renda" ou "GranaHub".
 - **Política de Imagens IA**: Foi definido que imagens geradas por IA (via Antigravity) são preferíveis às de bancos de imagem (Pexels/Unsplash) por serem mais exclusivas e evitarem textos em inglês. Atualmente, a geração de imagens IA é feita manualmente pelo assistente sob demanda, enquanto o robô automático utiliza Pexels como fallback de custo zero.
 
-## 6. Política de Redundância de IA (Triple Failover)
-Para garantir 100% de disponibilidade na geração de posts, o robô (`tools/agent.mjs`) utiliza três camadas de inteligência:
-1.  **Google Gemini (Primário):** Tenta modelos 2.0 Flash e 1.5 Pro.
+## 6. Política de Redundância de IA (Quadruple Failover)
+Para garantir 100% de disponibilidade na geração de posts, o robô (`tools/agent.mjs`) utiliza quatro camadas de inteligência:
+1.  **Google Gemini (Primário):** Tenta modelos `gemini-2.5-flash`, `gemini-2.0-flash-lite` e `gemini-1.5-flash-latest`.
 2.  **Groq (Secundário):** Acionado se o Google falhar. Utiliza o modelo `llama-3.3-70b-versatile` (LPU - Ultra rápido).
-3.  **ZimaOS Local (Backup):** Última instância via Cloudflare Tunnel (`scribe.granahub.com.br`). Utiliza o modelo local `qwen2.5:1.5b`.
-- **Segurança Local:** O acesso ao ZimaOS é protegido por **Cloudflare Service Tokens** (`CF_ACCESS_CLIENT_ID` / `CF_ACCESS_CLIENT_SECRET`).
+3.  **ZimaOS Local (Backup):** Penúltima instância via Cloudflare Tunnel (`scribe.granahub.com.br`). Utiliza o modelo local `qwen2.5:1.5b`.
+4.  **9Router Self-Hosted (Último Recurso):** Proxy OpenAI-compatível hospedado em `https://9routerapp.nexohubpro.com`. Agrega 40+ provedores de IA internamente com fallback automático. Modelo padrão configurado: `kr/gemini-2.5-flash`. Acionado quando todos os anteriores falham.
+- **Segurança 9Router:** Acesso autenticado via `Bearer token` gerado no dashboard do 9Router.
+- **Secrets GitHub necessários:** `NINEROUTER_URL`, `NINEROUTER_API_KEY`, `NINEROUTER_MODEL` (opcional).
 
 ## 7. Como Manter este Documento
 Ao realizar qualquer mudança arquitetural, adicionar integrações de Banco de Dados, regras de redirecionamento ou novos plug-ins no Front-End, por favor, proceda com o apêndice neste documento em novas sessões para que a base de conhecimento (Brain) ou seu assistente mantenha-se com máxima consciência sobre a máquina do GranaHub!

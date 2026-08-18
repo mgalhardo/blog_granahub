@@ -37,6 +37,9 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
           THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+          NINEROUTER_URL: ${{ secrets.NINEROUTER_URL }}
+          NINEROUTER_API_KEY: ${{ secrets.NINEROUTER_API_KEY }}
+          NINEROUTER_MODEL: ${{ secrets.NINEROUTER_MODEL }}
         run: node tools/agent.mjs
 
       - name: Commit and Push
