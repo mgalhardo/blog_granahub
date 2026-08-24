@@ -1,5 +1,14 @@
 # History
 
+## 2026-08-24
+
+### Resiliência do Agente e Correções de Modelos
+- **Correção de Hangs**: Adicionados timeouts (`AbortSignal.timeout`) em todas as operações de rede `fetch` no script `agent.mjs` para evitar travamentos infinitos no GitHub Actions decorrentes de instabilidades em serviços locais (como Ollama Local).
+- **Substituição de Modelos no Groq**: Atualizada a listagem de modelos para usar os modelos ativos em 2026 (priorizando `openai/gpt-oss-120b`, `qwen/qwen3.6-27b` e `groq/compound`) corrigindo o erro 404 (model_not_found) do modelo legado `llama-3.3-70b-versatile`.
+- **Compatibilidade com Modelos de Raciocínio (Thinking)**: Aprimorada a função `extractJSON` para filtrar blocos de pensamento `<think>...</think>` gerados por modelos de raciocínio lógico (como o Qwen-Thinking).
+- **Sanitização de Quebras de Linha**: Corrigida a decodificação de quebras de linha duplamente escapadas (`\\n`) geradas pelas respostas em JSON de certos modelos de IA.
+- **Geração de Post**: Criado o post sobre condomínios em alta (`condominios-alta-orcamento-familiar.md`) de forma 100% automatizada e validada.
+
 ## 2026-08-18
 
 ### Integração do 9Router e Ajustes de Build

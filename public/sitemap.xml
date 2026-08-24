@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://blog.granahub.com.br/</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-08-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -25,8 +25,50 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/a-estrategia-dos-tres-potes/</loc>
+    <lastmod>2026-06-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/a-estreia-da-spacex-na-bolsa/</loc>
+    <lastmod>2026-06-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/acordo-comercial-eua-ue-impactos-nos-investimentos-brasileiros/</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/acordo-ue-mercosul-impacto-na-economia/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/acucar-no-mercado-internacional/</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/aproveite-fundos-de-renda-fixa/</loc>
     <lastmod>2026-04-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/aumento-das-passagens-aereas-e-orcamento-de-viagens/</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/aumento-das-tarifas-dos-eua/</loc>
+    <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -49,8 +91,20 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/brasil-perde-lideranca-em-exportacoes-agricolas/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/cartao-credito-aliado-estrategia/</loc>
     <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/combustivel-em-alta-impacto-nas-financas-pessoais/</loc>
+    <lastmod>2026-06-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -63,6 +117,30 @@
   <url>
     <loc>https://blog.granahub.com.br/posts/como-usar-saque-aniversario-fgts-para-sair-do-vermelho/</loc>
     <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/condominios-alta-orcamento-familiar/</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/copa-do-mundo-e-investimentos-em-esportes-e-lazer/</loc>
+    <lastmod>2026-06-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/copa-economia/</loc>
+    <lastmod>2026-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/cultivo-de-girassol-para-produtores/</loc>
+    <lastmod>2026-07-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -85,6 +163,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/desemprego-na-industria-automobilistica/</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/desenrola-2-0-para-renegociar-dividas/</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -103,14 +187,122 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/desperdicio-de-alimentos/</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/dicas-de-economia-para-reduzir-o-impacto-da-crise-dos-fertilizantes/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/dicas-economizar-conta-luz-agua/</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/dicas-para-economizar-na-compra-de-carne/</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/dicas-para-economizar-no-supermercado/</loc>
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/dicas-para-reduzir-gastos-com-combustivel/</loc>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/dicas-para-reduzir-gastos-com-transporte-publico-com-tarifa-zero/</loc>
     <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/dicas-para-reduzir-o-impacto-da-inflacao/</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/diferenciando-dividas-boas-e-ruins/</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/dolar-em-alta-e-impacto-na-economia/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/dolar-em-alta-e-investimentos/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/drones-na-agricultura/</loc>
+    <lastmod>2026-06-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/economize-energia-aumente-grana/</loc>
+    <lastmod>2026-08-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/educacao-de-valor/</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/el-nino-e-a-economia-agricola/</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/el-nino-e-seu-orcamento/</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/el-nino-impacto-na-economia-e-oportunidades-de-investimento/</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/el-nino-impacto-nas-safras/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/el-nino-impacto-no-orcamento/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/emissao-de-titulos-publicos-na-china/</loc>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -139,6 +331,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/gerenciando-dividas-em-tempos-de-incerteza/</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/gerenciando-financas-familiares/</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
@@ -163,6 +361,24 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/guerra-economica-eua-iraq-investimentos-petroleo/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/guerra-no-ira-impacto-no-mercado-financeiro/</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/impacto-da-reducao-da-dependencia-do-agro-brasileiro-pela-china/</loc>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/impacto-da-saida-dos-emirados-arabes-unidos-da-opep-nos-precos-do-petroleo/</loc>
     <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
@@ -175,8 +391,32 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/impacto-do-aumento-do-petroleo-nos-gastos-pessoais/</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/impacto-do-aumento-do-preco-do-petroleo/</loc>
     <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/impacto-do-dolar-em-alta/</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/impacto-do-preco-do-petroleo-nas-financas-pessoais/</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/imposto-sobre-o-consumo-e-orcamento-familiar/</loc>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -205,8 +445,26 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/inflacao-em-queda-e-investimentos/</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/inflacao-em-revisao/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/inteligencia-artificial-e-financas-pessoais/</loc>
     <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/inteligencia-artificial-e-investimentos/</loc>
+    <lastmod>2026-07-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -217,14 +475,68 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/investindo-em-fundos-fechados-com-a-xp/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/investindo-na-crise-oportunidades-em-empresas-que-se-beneficiam-da-tensao-no-estreito-de-ormuz/</loc>
     <lastmod>2026-05-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/investir-renda-fixa-orcamento-familiar/</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/itcmd-e-investimentos/</loc>
+    <lastmod>2026-06-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/johnson-johnson-oferece-r-28-bilhoes/</loc>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/juros-altos-e-investimentos-de-longo-prazo/</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/lei-de-renovacao-automatica-da-cnh/</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/licoes-da-crise-de-1929/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/lidando-com-a-pressao-de-gastar/</loc>
     <lastmod>2026-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/lucro-do-fgts-oportunidades-financeiras/</loc>
+    <lastmod>2026-07-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/mercado-livre-de-energia/</loc>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -241,8 +553,44 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/o-impacto-do-tarifaco-dos-eua-no-seu-orcamento/</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/o-luxo-pet-e-o-impacto-na-economia/</loc>
+    <lastmod>2026-05-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/o-poder-do-fgts-para-metas-financeiras/</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/o-que-ninguem-conta-uso-reserva-emergencia/</loc>
     <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/orcamento-2026-inflacao-juros/</loc>
+    <lastmod>2026-06-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/orcamento-inteligente-para-alimentos/</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/orcamento-para-eventos-especiais/</loc>
+    <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -265,8 +613,20 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/pautas-bomba-e-dvida-publica/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/petroleo-em-alta/</loc>
     <lastmod>2026-05-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/pix-e-economia-domestica/</loc>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -277,8 +637,74 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/profissoes-mais-valorizadas-da-tecnologia/</loc>
+    <lastmod>2026-08-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/protecao-inedita-para-entregadores-de-aplicativo/</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/proteja-seu-orcamento-da-inflacao/</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/reabertura-estreito-ormuz-impacto-preco-petroleo/</loc>
     <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/reajuste-de-planos-de-saude/</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/reducao-da-escala-6x1-e-financas/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/reducao-da-jornada-de-trabalho/</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/reducao-de-dependencia-de-insumos-farmaceuticos-importados/</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/reducao-dependencia-alimentos-importados-china-orcamento-familiar/</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/reduzindo-o-impacto-da-pobreza-de-refrigeracao/</loc>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/reduzir-impacto-inflacao-orcamento-familiar/</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/reforma-tributaria-impacto-nos-precos/</loc>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -319,8 +745,80 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://blog.granahub.com.br/posts/saneamento-basico-e-economia/</loc>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/saneamento-basico-investimento-de-longo-prazo/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/super-el-nino-dicas-para-proteger-seu-orcamento/</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/super-el-nino-impacto-no-orcamento-familiar/</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://blog.granahub.com.br/posts/superando-o-vies-do-presente/</loc>
     <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/supersirio-el-nino-proteger-orcamento-turbulencia-climatica-brasil/</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/suspensao-de-representante-dos-eua-na-oit/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/tarifaco-de-trump-e-minerais-criticos/</loc>
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/tarifaco-dos-eua-e-investimentos-em-acoes-brasileiras/</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/tarifaco-dos-eua-e-seu-impacto-na-economia-brasileira/</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/tarifas-dos-eua-e-tilapia-brasileira/</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/tech-fora-eixo-salarios-interior/</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/tecnologia-em-alta/</loc>
+    <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -339,6 +837,18 @@
   <url>
     <loc>https://blog.granahub.com.br/posts/transforme-sua-renda-extra-em-um-negocio-sustentavel/</loc>
     <lastmod>2026-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/volatilidade-das-commodities/</loc>
+    <lastmod>2026-07-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blog.granahub.com.br/posts/volatilidade-do-dolar-e-investimentos/</loc>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

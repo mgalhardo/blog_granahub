@@ -144,7 +144,8 @@ No final do post (último parágrafo), inclua o CTA:
          console.log(`📸 Buscando imagem no Pexels para termo: "${postData.searchTermForImage}"...`);
          const usedImages = getUsedImages();
          const pexelsRes = await fetch(`https://api.pexels.com/v1/search?query=${postData.searchTermForImage}&per_page=10`, {
-           headers: { Authorization: process.env.PEXELS_API_KEY }
+           headers: { Authorization: process.env.PEXELS_API_KEY },
+           signal: AbortSignal.timeout(10000)
          });
          const pexelsData = await pexelsRes.json();
          
@@ -175,6 +176,13 @@ No final do post (último parágrafo), inclua o CTA:
       return images;
     }    
     const dataAtual = new Date().toISOString().split('T')[0];
+
+    // Substitui eventuais \n literais no conteúdo gerado (comum quando a IA retorna JSON duplamente escapado)
+    if (postData.content) {
+      postData.content = postData.content
+        .replace(/\\n/g, '\n')
+        .replace(/\\r/g, '\r');
+    }
 
     const finalMarkdown = `---
 title: "${postData.title}"
@@ -259,7 +267,8 @@ async function sendTelegramNotification(title, slug) {
         chat_id: chatId,
         text: message,
         parse_mode: 'Markdown'
-      })
+      }),
+      signal: AbortSignal.timeout(10000)
     });
     
     if (res.ok) {
@@ -297,7 +306,8 @@ async function sendThreadsPost(title, description, slug, imageUrl) {
         image_url: imageUrl,
         text: text,
         access_token: token
-      })
+      }),
+      signal: AbortSignal.timeout(15000)
     });
 
     const containerData = await containerRes.json();
@@ -320,7 +330,8 @@ async function sendThreadsPost(title, description, slug, imageUrl) {
       body: JSON.stringify({
         creation_id: creationId,
         access_token: token
-      })
+      }),
+      signal: AbortSignal.timeout(15000)
     });
 
     const publishData = await publishRes.json();
@@ -395,12 +406,21 @@ async function generateAIContent(prompt) {
 
 async function callGemini(prompt) {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const models = ["gemini-2.5-flash", "gemini-2.0-flash-lite", "gemini-1.5-flash-latest"];
+  const models = [
+    "gemini-3.5-flash",
+    "gemini-3.5-flash-lite",
+    "gemini-2.5-flash",
+    "gemini-2.0-flash-lite",
+    "gemini-1.5-flash-latest"
+  ];
   
   for (const modelName of models) {
     try {
       console.log(`   └─ Usando modelo: ${modelName}`);
-      const model = genAI.getGenerativeModel({ model: modelName });
+      const model = genAI.getGenerativeModel(
+        { model: modelName },
+        { requestOptions: { timeout: 15000 } }
+      );
       const result = await model.generateContent(prompt);
       return result.response.text();
     } catch (e) {
@@ -412,22 +432,36 @@ async function callGemini(prompt) {
 
 async function callGroq(prompt) {
   const url = 'https://api.groq.com/openai/v1/chat/completions';
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.7
-    })
-  });
+  const models = ['groq/compound', 'qwen/qwen3.6-27b', 'openai/gpt-oss-120b', 'llama-3.3-70b-versatile'];
   
-  if (!res.ok) throw new Error(`Groq API error: ${res.status}`);
-  const data = await res.json();
-  return data.choices[0].message.content;
+  for (const modelName of models) {
+    try {
+      console.log(`   └─ Usando modelo Groq: ${modelName}`);
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: modelName,
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.7
+        }),
+        signal: AbortSignal.timeout(15000)
+      });
+      
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Groq API error status: ${res.status}, body: ${errText}`);
+      }
+      const data = await res.json();
+      return data.choices[0].message.content;
+    } catch (e) {
+      console.warn(`   └─ Erro no modelo Groq ${modelName}: ${e.message}`);
+    }
+  }
+  throw new Error('Todos os modelos Groq falharam.');
 }
 
 async function callLocalOllama(prompt) {
@@ -444,7 +478,8 @@ async function callLocalOllama(prompt) {
       model: 'qwen2.5:1.5b',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7
-    })
+    }),
+    signal: AbortSignal.timeout(10000) // 10 seconds timeout to prevent hanging the build
   });
 
   if (!res.ok) throw new Error(`Local AI error: ${res.status}`);
@@ -467,7 +502,8 @@ async function callNineRouter(prompt) {
       model: model,
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7
-    })
+    }),
+    signal: AbortSignal.timeout(20000) // 20 seconds timeout
   });
 
   const text = await res.text();
@@ -492,7 +528,7 @@ async function fetchNewsHeadlines() {
   let allTitles = [];
   for (const url of sources) {
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
       const text = await res.text();
       const items = text.split('<item>');
       items.shift();
@@ -502,7 +538,7 @@ async function fetchNewsHeadlines() {
       }).filter(Boolean);
       allTitles = allTitles.concat(titles.slice(0, 10));
     } catch (e) {
-      console.warn(`⚠️ Aviso: Falha ao buscar notícias de ${url}`);
+      console.warn(`⚠️ Aviso: Falha ao buscar notícias de ${url}: ${e.message}`);
     }
   }
   return allTitles;
@@ -517,11 +553,20 @@ function pickWeightedCategory() {
 }
 
 function extractJSON(text) {
-  const start = text.indexOf('{');
-  const end = text.lastIndexOf('}');
+  let cleanText = text;
+  
+  // Remove a tag de thinking e tudo dentro dela se ela existir
+  if (cleanText.includes('</think>')) {
+    cleanText = cleanText.split('</think>').pop();
+  } else if (cleanText.includes('<think>')) {
+    cleanText = cleanText.split('<think>')[0];
+  }
+  
+  const start = cleanText.indexOf('{');
+  const end = cleanText.lastIndexOf('}');
   if (start === -1 || end === -1) return null;
   
-  let jsonString = text.substring(start, end + 1);
+  let jsonString = cleanText.substring(start, end + 1);
   
   // Limpeza de caracteres de controle e escapes inválidos
   // 1. Substituir quebras de linha reais dentro de aspas por \n literal
