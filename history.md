@@ -1,5 +1,16 @@
 # History
 
+## 2026-09-21
+
+### Diagnóstico de E-mails do GitHub Actions & Atualização dos Modelos de IA
+- **Ajuste de Modelos**: Atualizada a listagem de modelos em `tools/agent.mjs` para os endpoints oficiais vigentes (`gemini-2.0-flash` no Gemini, e `groq/compound` / `openai/gpt-oss-120b` no Groq), eliminando erros 404 (`model_not_found`) durante as chamadas automáticas.
+- **Estabilização de Ambiente**: Ajustado o workflow `.github/workflows/ai-agent.yml` para Node.js 20 LTS.
+- **Suporte a Data Personalizada**: Adicionado suporte à variável `CUSTOM_DATE` no script `tools/agent.mjs` para permitir testes e geração manual retroativa de matérias.
+- **Sanitização de Frontmatter YAML**: Corrigido vazamento de aspas duplas no título do post `adeus-casa-propria-perigo-pequenos-luxos-diarios.md` que quebrava o leitor de YAML (`gray-matter` / `js-yaml`) na geração do sitemap no GitHub Actions, e implementada sanitização automática no `agent.mjs` (`safeTitle` e `safeDescription`) convertendo aspas duplas internas para aspas simples.
+- **Publicação**: Gerados, validados e publicados dois novos posts referentes a 20/09 e 21/09:
+  - *Inteligência Artificial e seus gastos: como se adaptar e economizar de forma inteligente* (`inteligencia-artificial-gastos-adaptacao.md`)
+  - *5 Estratégias Inteligentes para Poupar Dinheiro em Tempos de Incerteza Econômica* (`estrategias-inteligentes-poupar-dinheiro-incerteza-economica.md`)
+
 ## 2026-08-24
 
 ### Resiliência do Agente e Correções de Modelos
