@@ -175,7 +175,7 @@ No final do post (último parágrafo), inclua o CTA:
       });
       return images;
     }    
-    const dataAtual = new Date().toISOString().split('T')[0];
+    const dataAtual = process.env.CUSTOM_DATE || new Date().toISOString().split('T')[0];
 
     // Substitui eventuais \n literais no conteúdo gerado (comum quando a IA retorna JSON duplamente escapado)
     if (postData.content) {
@@ -431,7 +431,7 @@ async function callGemini(prompt) {
 
 async function callGroq(prompt) {
   const url = 'https://api.groq.com/openai/v1/chat/completions';
-  const models = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'groq/compound', 'qwen-2.5-coder-32b'];
+  const models = ['groq/compound', 'openai/gpt-oss-120b'];
   
   for (const modelName of models) {
     try {
