@@ -184,10 +184,13 @@ No final do post (último parágrafo), inclua o CTA:
         .replace(/\\r/g, '\r');
     }
 
+    const safeTitle = (postData.title || '').replace(/"/g, "'");
+    const safeDescription = (postData.description || '').replace(/"/g, "'");
+
     const finalMarkdown = `---
-title: "${postData.title}"
+title: "${safeTitle}"
 date: "${dataAtual}"
-description: "${postData.description}"
+description: "${safeDescription}"
 coverImage: "${coverImage}"
 category: "${postData.category || process.env.POST_CATEGORY || 'Finanças'}"
 ---

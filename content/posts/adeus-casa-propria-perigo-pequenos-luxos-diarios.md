@@ -1,5 +1,5 @@
 ---
-title: "Adeus Casa Própria? O Perigo de Trocar o Futuro por "Pequenos Luxos" Diários"
+title: "Adeus Casa Própria? O Perigo de Trocar o Futuro por 'Pequenos Luxos' Diários"
 date: "2026-09-20"
 description: "Entenda como a frustração com o mercado imobiliário gerou a onda de 'doom spending' e saiba equilibrar pequenos prazeres sem destruir seus planos financeiros."
 coverImage: "https://images.pexels.com/photos/6633560/pexels-photo-6633560.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
