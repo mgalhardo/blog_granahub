@@ -407,11 +407,10 @@ async function generateAIContent(prompt) {
 async function callGemini(prompt) {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   const models = [
-    "gemini-3.5-flash",
-    "gemini-3.5-flash-lite",
-    "gemini-2.5-flash",
+    "gemini-2.0-flash",
     "gemini-2.0-flash-lite",
-    "gemini-1.5-flash-latest"
+    "gemini-1.5-flash",
+    "gemini-1.5-pro"
   ];
   
   for (const modelName of models) {
@@ -432,7 +431,7 @@ async function callGemini(prompt) {
 
 async function callGroq(prompt) {
   const url = 'https://api.groq.com/openai/v1/chat/completions';
-  const models = ['groq/compound', 'qwen/qwen3.6-27b', 'openai/gpt-oss-120b', 'llama-3.3-70b-versatile'];
+  const models = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'groq/compound', 'qwen-2.5-coder-32b'];
   
   for (const modelName of models) {
     try {
